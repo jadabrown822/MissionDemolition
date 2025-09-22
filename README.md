@@ -5,7 +5,7 @@ __1.__ Do the mIssion Demolition tutorial from Bond Chapter 30. Enhance the fini
 
   __a.__ use the Correct Unity vertion and upload to GitHub iwht the correct Unity gitignore.
 
-  ___b.__ Add a "Game Over" screen with a "Play Again" button.
+  __b.__ Add a "Game Over" screen with a "Play Again" button.
 
   __c.__ Make 4 levels with 4 Castles different form the ones shoen in the book. Order the castles from easy to difficult, so that the game increases in difficulty with each level
 
