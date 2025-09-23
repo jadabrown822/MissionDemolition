@@ -198,25 +198,256 @@ __1.__ Create a new C# script and name it _Slingshor.cs_ (_Assets > Create> C# S
 > __b.__ Open the Slingshot C# script in VS and enter the code
 
 ```ruby
-// Slingshot.cs
+  // Slingshot.cs
+  
+  using System.Collections;
+  using System.Collections.Generic;
+  using UNityEngine;
+  
+  public class Slingshot : MonoBehaviour {
+  
+    void OnMouseEnter() {
+      print("Slingshot:OnMouseEnter()");
+    }
 
-using System.Collections;
-using System.Collections.Generic;
-using UNityEngine;
 
-public class Slingshot : MonoBehaviour {
-
-  void OnMouseEnter() {
-    print("Slingshot:OnMouseEnter()");
+    void OnMouseExit() {
+      print("Slingshot:OnMouseExit()");
+    }
+  
+    /*
+      void Start() {}
+      void Update() {}
+    */
   }
-
-  void OnMouseExit() {
-    print("Slingshot:OnMouseExit()");
-  }
-
-  /*
-    void start() {}
-    void UPdate() {}
-  */
-}
 ```
+
+__2.__ Click _Play_ and move the mouse cursor close to the slingshot. Will see text in Console pane
+
+__3.__ Save the scene
+
+
+### Showing When the Slingshot Is Active
+__1.__ Select _LaunchPoint_ in the Hierarchy
+> __a.__ Add a _Halo_ component to LaunchPoint (_component > Effects > Halo_), which will create a gowing sphere effect at the Launch Point location
+>
+> __b.__ Set t'he _Size_ of the _Halo_ to 1
+>
+> __c.__ Make the _Color_ of the Halo to a light grey to make sure it's visible [r:191, g:191, b:191, a:255]
+
+__2.__ Now add the code to the Slingshot C# script
+
+```ruby
+  // Slingshot.cs
+  
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+  
+  public class Slingshot : MonoBehaviour {
+  
+    public GameObject launchPoint;
+  
+  
+    void Awake() {
+      Transform launchPointTrans = transform.Find("LaunchPoint");
+      launchPoint = launchPointTrans.gameIbject;
+      launchPoint.SetActive(false); 
+    }
+
+
+    void OnMouseEnter() {
+      // print("Slingshot:OnMouseEnter()");
+      launchPoint.SetActive(true);
+    }
+
+
+    void OnMouseExit() {
+      // print("Slingshot:OnMouseExit()");
+      launchPoint.SetActive(false);
+    }
+  
+    /*
+      void Start() {}
+      void Update() {}
+    */
+  }
+```
+
+__3.__ Save the _Slingshot_ script, return to Unity, and click _Play_
+
+__4.__ Save the scene
+
+
+### Instantiating a Projectile
+__1.__ Copy code to _Slingshot.cs_
+
+```ruby
+  // Slingshot.cs
+  
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+  
+  public class Slingshot : MonoBehaviour {
+
+    // fields set in tthe Unity Ispector pane
+    [Header("Inscribed")]        // meant to set within the Inspector
+    public GameObject projectilePrefab;
+
+    // fields set dynamically
+    [Header("Dynamic")]          // fields that will be set dynamically when the game is running
+    public GameObject launchPoint;
+    public Vector3 launchPos;
+    public GameObject projectile;
+    public bool aimingMode;
+  
+  
+    void Awake() {
+      Transform launchPointTrans = transform.Find("LaunchPoint");
+      launchPoint = launchPointTrans.gameIbject;
+      launchPoint.SetActive(false);
+      launchPos = launchPointTrans.position;
+    }
+
+
+    void OnMouseEnter() {
+      // print("Slingshot:OnMouseEnter()");
+      launchPoint.SetActive(true);
+    }
+
+
+    void OnMouseExit() {
+      // print("Slingshot:OnMouseExit()");
+      launchPoint.SetActive(false);
+    }
+
+
+    void OnMouseDown () {
+      // the player has pressed the mouse button while over the Slingshot
+      aimingMode = true;
+
+      // instantiating a Projectile
+      projectile = Instantiate(projectilePrefab) as GameOBject;
+
+      // Start it at the launchPoint
+      projectile.transform.position = launchPos;
+
+      // Set it to isKinematic for now
+      projectile.GetComponent<Rigidbody>().isKinematic = true;
+    }
+  
+    /*
+      void Start() {}
+      void Update() {}
+    */
+  }
+```
+
+__2.__ Select _Slingshot_ in the Hierarchy pane and set _ProjectilePrefab_ to be the Projectile prefabe in the Project pane (clicking the target to the right of the projectilePrefab in the Inspector and choosing _Projectile_ from the _Assets_ tab)
+
+__3.__ Click _Play_, move mouse pointer inside the active area for the slingshot, and click. The Projectile instance appears
+
+__4.__ Add more to _Slingshot.cs_
+
+```ruby
+  // Slingshot.cs
+  
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+  
+  public class Slingshot : MonoBehaviour {
+
+    // fields set in tthe Unity Ispector pane
+    [Header("Inscribed")]        // meant to set within the Inspector
+    public GameObject projectilePrefab;
+    public float velocityMult = 10f;
+
+    // fields set dynamically
+    [Header("Dynamic")]          // fields that will be set dynamically when the game is running
+    public GameObject launchPoint;
+    public Vector3 launchPos;
+    public GameObject projectile;
+    public bool aimingMode;
+  
+  
+    void Awake() {
+      Transform launchPointTrans = transform.Find("LaunchPoint");
+      launchPoint = launchPointTrans.gameIbject;
+      launchPoint.SetActive(false);
+      launchPos = launchPointTrans.position;
+    }
+
+
+    void OnMouseEnter() {
+      // print("Slingshot:OnMouseEnter()");
+      launchPoint.SetActive(true);
+    }
+
+
+    void OnMouseExit() {
+      // print("Slingshot:OnMouseExit()");
+      launchPoint.SetActive(false);
+    }
+
+
+    void OnMouseDown () {
+      // the player has pressed the mouse button while over the Slingshot
+      aimingMode = true;
+
+      // instantiating a Projectile
+      projectile = Instantiate(projectilePrefab) as GameOBject;
+
+      // Start it at the launchPoint
+      projectile.transform.position = launchPos;
+
+      // Set it to isKinematic for now
+      projectile.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+
+    void Update() {
+      // If Slingshot is not in aimingMode, don't run this code
+      if (!aimingMode) {return;}
+
+      // Get the current mouse position in 2D screen coordinates
+      Vector3 mousePos2D = Input.mousePosition;
+      mousePos2D.z = -Camera.main.transform.position.z;
+      Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+
+      // Find the delta from the launchPos to the mousePos3D
+      Vector3 mouseDelta = mousePos3D - launchPos;
+
+      // Limit mouseDelta to the radius of the Slingshot SphereCollider
+      float maxMagnitude = this.GetComponent<SphereCollider>().radius;
+      if (mouseDelta.magnitude > maxMagnitude) {
+        mouseDelta.Normalize();
+        mouseDelta *= maxMagnetude;
+      }
+
+      // Move the projectile to this new position
+      Vector3 projPos = launchPos + mouseDelta;
+      projectile.transform.position = projPos;
+
+      if (input.GetMouseButtonUp(0)) { // This 0 is a zero
+        // the mouse has been released
+        aimingMode = false;
+        RigidBody projRB = projectile.GetComponent<Rigidbody>().radius;
+        projRB.isKinemaric = false;
+        projRB.collisionDectionMode = CollisionDetectionMode.Continuous;
+        projRB.velocity = -mouseDelta * velocityMult;
+        projectile = null;
+      }
+    }
+  
+    /*
+      void Start() {}
+    */
+    
+  }
+```
+
+__5.__ Click _Play_ and see how the Slingshot feels. Adjust __velocityMult__ for correct feeling
+
+__6.__ Save the scene
