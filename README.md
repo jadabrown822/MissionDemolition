@@ -3,17 +3,17 @@ Mission Demolition
 
 __1.__ Do the mIssion Demolition tutorial from Bond Chapter 30. Enhance the finished Mission Demolition project in the following ways:
 
-  __a.__ use the Correct Unity vertion and upload to GitHub iwht the correct Unity gitignore.
-
-  __b.__ Add a "Game Over" screen with a "Play Again" button.
-
-  __c.__ Make 4 levels with 4 Castles different form the ones shoen in the book. Order the castles from easy to difficult, so that the game increases in difficulty with each level
-
-  __d.__ Use a Line Reader to draw a rubber band of a slingshot
-
-  __e.__ Add a sound. Either the rubber band snapping as the projectiile is shot, or the porjectile whirring as it flies though the air
-
-  __f.__ Make the game cooler in a meaningful eay. Be sure to leave a readme file that explains the enhancements
+> __a.__ use the Correct Unity vertion and upload to GitHub iwht the correct Unity gitignore.
+>
+> __b.__ Add a "Game Over" screen with a "Play Again" button.
+>
+> __c.__ Make 4 levels with 4 Castles different form the ones shoen in the book. Order the castles from easy to difficult, so that the game increases in difficulty with each level
+>
+> __d.__ Use a Line Reader to draw a rubber band of a slingshot
+>
+> __e.__ Add a sound. Either the rubber band snapping as the projectiile is shot, or the porjectile whirring as it flies though the air
+>
+> __f.__ Make the game cooler in a meaningful eay. Be sure to leave a readme file that explains the enhancements
 
 
 # Getting Started: _Mission Demolition_
@@ -59,3 +59,36 @@ __3.__ Create a new material (_Assets > Create > Material_) and name it _Mat_Gro
 > __c.__ Attach the _Mat_Ground_ Material to the _Ground_ GameObjet in the Hierarchy)
 
 __4.__ Save the Scene
+
+
+## Directional Light
+__1.__ Select _Directional Light_ in the Hierarchy pane. Change position and rotation:
+* P:[-10, 0, 0]
+* R:[30, -30, 0]
+* S:[1, 1, 1]
+
+__2.__ Save the Scene
+
+
+## Camera Settings
+__1.__ Select the _Main Camera_ in the Hierarchy and rename it to __MainCamera_
+
+__2.__ Give __MainCamera Camera_  the following Transform setting
+* P:[0, 0, -10]
+* R:[0, 0, 0]
+* S:[1, 1, 1]
+
+
+__3.__ Give the _MainCamera Camera_ component these settings:
+> __a.__ Set _Clear Flags_ to _SolidColor_
+>
+> __b.__ Choose a brighter _Background_ colot to look more like a sky blue.
+> * [R: 75, G: 220, B: 255]
+>
+> __c.__ Set _Projection_ to _Orthographic_
+>
+> __d.__ Set size to _10_
+
+__4.__ Choose _Full HD (1920x1080)_ aspect ratio in the Game pane
+
+__5.__ Save the scene
