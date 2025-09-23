@@ -292,11 +292,13 @@ __1.__ Copy code to _Slingshot.cs_
   public class Slingshot : MonoBehaviour {
 
     // fields set in tthe Unity Ispector pane
-    [Header("Inscribed")]        // meant to set within the Inspector
+    [Header("Inscribed")]
+    // meant to set within the Inspector
     public GameObject projectilePrefab;
 
     // fields set dynamically
-    [Header("Dynamic")]          // fields that will be set dynamically when the game is running
+    [Header("Dynamic")]
+    // fields that will be set dynamically when the game is running
     public GameObject launchPoint;
     public Vector3 launchPos;
     public GameObject projectile;
@@ -360,12 +362,14 @@ __4.__ Add more to _Slingshot.cs_
   public class Slingshot : MonoBehaviour {
 
     // fields set in tthe Unity Ispector pane
-    [Header("Inscribed")]        // meant to set within the Inspector
+    [Header("Inscribed")]
+    // meant to set within the Inspector
     public GameObject projectilePrefab;
     public float velocityMult = 10f;
 
     // fields set dynamically
-    [Header("Dynamic")]          // fields that will be set dynamically when the game is running
+    [Header("Dynamic")]
+    // fields that will be set dynamically when the game is running
     public GameObject launchPoint;
     public Vector3 launchPos;
     public GameObject projectile;
