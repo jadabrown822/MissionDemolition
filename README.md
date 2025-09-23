@@ -434,7 +434,7 @@ __4.__ Add more to _Slingshot.cs_
       Vector3 projPos = launchPos + mouseDelta;
       projectile.transform.position = projPos;
 
-      if (input.GetMouseButtonUp(0)) { // This 0 is a zero
+      if (input.GetMouseButtonUp(0)) {
         // the mouse has been released
         aimingMode = false;
         RigidBody projRB = projectile.GetComponent<Rigidbody>().radius;
@@ -455,3 +455,16 @@ __4.__ Add more to _Slingshot.cs_
 __5.__ Click _Play_ and see how the Slingshot feels. Adjust __velocityMult__ for correct feeling
 
 __6.__ Save the scene
+
+
+## Making a Follow Camera
+__1.__ Select __MainCamera_ in the Hierarchy
+
+__2.__ To create a new FollowCam Script and add it to _MainCamera at the same time:
+> __a.__ click the _Add Component_ button at the bottom of the __MainCamera_ Inspector
+>
+> __b.__ Type _FollowCam_ into the search bar that appears
+>
+> __c.__ Click _New script_
+>
+> 
