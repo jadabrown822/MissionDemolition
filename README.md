@@ -78,7 +78,6 @@ __2.__ Give __MainCamera Camera_  the following Transform setting
 * R:[0, 0, 0]
 * S:[1, 1, 1]
 
-
 __3.__ Give the _MainCamera Camera_ component these settings:
 > __a.__ Set _Clear Flags_ to _SolidColor_
 >
@@ -92,3 +91,80 @@ __3.__ Give the _MainCamera Camera_ component these settings:
 __4.__ Choose _Full HD (1920x1080)_ aspect ratio in the Game pane
 
 __5.__ Save the scene
+
+
+## The Slingshot
+__1.__ Create an empty GameObject (_GameObject > Create Empty_)
+> __a.__ Change the empty GameObject's name to _Slingshot_
+>
+> __b.__ Reset the Slingshot's transform and set to the following:
+> * P:[0, 0, 0]
+> * R:[0, 0, 0]
+> * S:[1, 1, 1]
+
+__2.__ Create a new cylinder (_GameObject > 3D Object > Cylinder_)
+> __a.__ change the name of the Cylinder to _Base_
+>
+> __b.__ Drag the Base under the Slingshot in the Hierarchy, making Slingshot its parent
+>
+> __c.__ Click the disclosure triangle next to the Slingshot and select _Base_ again
+>
+> __d.__ Set Base's transform to the following:
+> * P:[0, 1, 0]
+> * R:[0, 0, 0]
+> * S:[0.5, 1, 0.5]
+
+__3.__ With Base selected, click the three vertical dots next to the _Capsule Collider_ component in the Inspector and select _Remove Component_. This removes the Collider component from Base, which will keep the Projectile from frunning into it
+
+__4.__ Create a new material named _Mat_Slingshot_
+> __a.__Set the _Albedo_ color to any light color
+>
+> __b.__ Set the _Smoothness_ to _0_
+>
+> __c.__ Drag _Mat_Slingshot_ on to _Base_ to applu the material to the Base GameObject
+
+__5.__ Select _Base_ in the Hierarchy pane, and duplicate Base by choosing _Edit > Duplicate_ from the menu bar
+
+__6.__ Change the name of the new duplicate fro _Base (1)_ to _LeftArm_. Set the transform of LeftArm to the following:
+* P[0, 3, 1]
+* R:[45, 0, 0]
+* S:[0.5, 1.414, 0.5]
+
+__7.__ Select _LeftArm_ in the Hierarchy
+> __a.__ Duplicate LeftArm
+>
+> __b.__ Rename this instance from LeftArm (1) to RightArm
+>
+> __c.__ Set the transform of RightArm to the following:
+> * P:[0, 3, -1]
+> * R:[-45, 0, 0]
+> * S:[0.5, 1.414, 0.5]
+
+__8.__ Select the _Slingshot_ in the Hierarchy
+> __a.__ Set the transform of Slingshot to the following:
+> * P:[-10, -10, 0]
+> * R:[0, 15, 0]
+> * S:[1, 1, 1]
+>
+> __b.__ Add a Sphere Collider component to Slingshot (_Component > Physics > Sphere Collider_)
+>
+> __c.__ Set the Sphere Collider components to:
+> * Set _Is Trigger_ to true (checked)
+> * Set the _Y value of Center_ to 4
+> * Set _Radius_ to 3
+
+__9.__ Add a "launch point" to the slingshot to give it  specific location from which to shoot the projectiles
+> __a.__ Select Slingshot in the Hierarchy
+>
+> __b.__ Create an empty GameObject as a child of Slingshot (_GameObject > Create > Empty Child_)
+>
+> __c.__ Rename the new empty child from GameObject to _LaunchPoint_
+>
+> __d.__ Set the _Transform_ of LaunchPoint to the following
+> * P:[0, 4, 0]
+> * R:[0, 15, 0]
+> * S:[1, 1, 1]
+> 
+> __e.__ At the top of the _LaunchPoint_ Inspector, click the cube. Prom the pop-up menu, choose any of the dimonds on the bottom row of icons
+
+__10.__ Save the scene
