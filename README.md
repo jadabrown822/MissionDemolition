@@ -188,3 +188,35 @@ __4.__ Drag _Projectile_ from the Hierarchy pane to the Project pane to make it 
 __5.__ Delete the _Projectile_ instance that remains in the _Hierarchy_ pane
 
 __6.__ Save the scene
+
+
+# Coding the Prototype
+## Createing the Slinghot Class
+__1.__ Create a new C# script and name it _Slingshor.cs_ (_Assets > Create> C# Script_)
+> __a.__ Attach the _Slingshot_ script to the _Slingshot_ GameObject in the Hierarchy
+>
+> __b.__ Open the Slingshot C# script in VS and enter the code
+
+```ruby
+// Slingshot.cs
+
+using System.Collections;
+using System.Collections.Generic;
+using UNityEngine;
+
+public class Slingshot : MonoBehaviour {
+
+  void OnMouseEnter() {
+    print("Slingshot:OnMouseEnter()");
+  }
+
+  void OnMouseExit() {
+    print("Slingshot:OnMouseExit()");
+  }
+
+  /*
+    void start() {}
+    void UPdate() {}
+  */
+}
+```
