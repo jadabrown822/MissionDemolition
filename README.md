@@ -168,3 +168,23 @@ __9.__ Add a "launch point" to the slingshot to give it  specific location from 
 > __e.__ At the top of the _LaunchPoint_ Inspector, click the cube. Prom the pop-up menu, choose any of the dimonds on the bottom row of icons
 
 __10.__ Save the scene
+
+
+## Projectile
+__1.__ Create a sphere in the scene (_GameObject > 3D Object > Sphere_) and name it _Projectile_
+
+__2.__ Select _Projectile_ in the Hierarchy and attach _Rigidbody_ component (_Component > Physics > Rigidbody_)
+> __a.__ Set _Mass_ to _5_ in the Projectile Rigidbody Inspector
+
+__3.__ Create a new material and name it _Mat_Projectile_
+> __a.__ Make Mat_Projectile's _Albedo_ a dark grey color
+>
+> __b.__ Set _Metalic_ to _0.5_ and _Smoothness_ to _0.65_ to make it look more like a metal ball
+>
+> __c.__ Apply Mat_Projectile to _Projectile_ in the Hierarchy
+
+__4.__ Drag _Projectile_ from the Hierarchy pane to the Project pane to make it a prefab
+
+__5.__ Delete the _Projectile_ instance that remains in the _Hierarchy_ pane
+
+__6.__ Save the scene
