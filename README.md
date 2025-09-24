@@ -467,4 +467,179 @@ __2.__ To create a new FollowCam Script and add it to _MainCamera at the same ti
 >
 > __c.__ Click _New script_
 >
-> 
+> __d.__ Double-check the _FollowCam_ name and then click _Create and Add_
+
+__3.__ Double-click the FollowCam script to open it
+
+```ruby
+// FollowCam.cs
+
+  using System.collections;
+  using Systems.Collections.Generic;
+  using UnityEngine;
+  
+  public class FollowCam : MonoBehaviour {
+    startic public GameObject POI;    // The static point of interest
+  
+    [Header("Dynsmic")]
+    public float camZ;    // The desired z pos of the camera
+  
+    void Awake() {
+      camZ = this.transform.position.z;
+    }
+  
+  
+    void FixedUpdate() {
+      // A single-line if statement doesn't require braces
+      if (POI -- null) return;    // if there is nor POI, then return
+  
+      // Get the position of poi
+      Vector3 destination  = POI. transform.position;
+  
+      // Force destination.z to be camZ to keep the camera far enough away
+      destination.z = camZ;
+  
+      // Set the camera to the destination
+      transform.position = destination;
+    }
+  
+    /*
+      void Start() {}
+    
+      void Update() {}
+    */
+  }
+```
+
+__4.__ Open the _Slingshot_ C# script and add code
+
+```ruby
+  // Slingshot.cs
+  
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+  
+  public class Slingshot : MonoBehaviour {
+
+    // fields set in tthe Unity Ispector pane
+    [Header("Inscribed")]
+    // meant to set within the Inspector
+    public GameObject projectilePrefab;
+    public float velocityMult = 10f;
+
+    // fields set dynamically
+    [Header("Dynamic")]
+    // fields that will be set dynamically when the game is running
+    public GameObject launchPoint;
+    public Vector3 launchPos;
+    public GameObject projectile;
+    public bool aimingMode;
+  
+  
+    void Awake() {
+      Transform launchPointTrans = transform.Find("LaunchPoint");
+      launchPoint = launchPointTrans.gameIbject;
+      launchPoint.SetActive(false);
+      launchPos = launchPointTrans.position;
+    }
+
+
+    void OnMouseEnter() {
+      // print("Slingshot:OnMouseEnter()");
+      launchPoint.SetActive(true);
+    }
+
+
+    void OnMouseExit() {
+      // print("Slingshot:OnMouseExit()");
+      launchPoint.SetActive(false);
+    }
+
+
+    void OnMouseDown () {
+      // the player has pressed the mouse button while over the Slingshot
+      aimingMode = true;
+
+      // instantiating a Projectile
+      projectile = Instantiate(projectilePrefab) as GameOBject;
+
+      // Start it at the launchPoint
+      projectile.transform.position = launchPos;
+
+      // Set it to isKinematic for now
+      projectile.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+
+    void Update() {
+      // If Slingshot is not in aimingMode, don't run this code
+      if (!aimingMode) {return;}
+
+      // Get the current mouse position in 2D screen coordinates
+      Vector3 mousePos2D = Input.mousePosition;
+      mousePos2D.z = -Camera.main.transform.position.z;
+      Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+
+      // Find the delta from the launchPos to the mousePos3D
+      Vector3 mouseDelta = mousePos3D - launchPos;
+
+      // Limit mouseDelta to the radius of the Slingshot SphereCollider
+      float maxMagnitude = this.GetComponent<SphereCollider>().radius;
+      if (mouseDelta.magnitude > maxMagnitude) {
+        mouseDelta.Normalize();
+        mouseDelta *= maxMagnetude;
+      }
+
+      // Move the projectile to this new position
+      Vector3 projPos = launchPos + mouseDelta;
+      projectile.transform.position = projPos;
+
+      if (input.GetMouseButtonUp(0)) {
+        // the mouse has been released
+        aimingMode = false;
+        RigidBody projRB = projectile.GetComponent<Rigidbody>().radius;
+        projRB.isKinemaric = false;
+        projRB.collisionDectionMode = CollisionDetectionMode.Continuous;
+        projRB.velocity = -mouseDelta * velocityMult;
+        FollowCam.POI = projectile;    // Set the _MainCamera POI
+        projectile = null;
+      }
+    }
+  
+    /*
+      void Start() {}
+    */
+    
+  }
+```
+
+
+### The Ground Is Too Small
+__1.__ Fix by opening _Ground_ Transform pane to make larger
+* P:[100, -10, 0]
+* R:[0, 0, 0]
+* S:[400, 1, 4]
+
+
+### The Porjectile Doesn't Bounce Realistically
+__1.__ Select the _Projectile_ prefab in the Project pane
+
+__2.__ In the Projectile _Rigidbody_ component:
+> __a.__ Open the disclosure triangle next to _Constraints_
+>
+> __b.__ Set the check box next to _Freeze Position Z_ to true
+>
+> __c.__ Set the check boxes next to _Freex Rotation_ X, Y, and Z to true
+
+__3.__ Save the scene, click _Play_, and try to launch the projectile again
+
+__4.__ Fro the Unity menu bar, choose _Assets > Create > Physical Material_
+
+__5.__ Name this Physical material _PhysMat_Projectile_
+
+__6.__ Click _PhysMat_Projectile_ and set the _bounciness_ to 1 in the Inspector
+
+__7.__ Drag _PhysMat_Projectile_ in the Project pane onto the _Projectile_ prefab to apply it to _SphereCollider_ component of the projectile
+
+__8.__ Save the scene, click _Play_, and try launching the projectile again
