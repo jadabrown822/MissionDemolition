@@ -103,7 +103,7 @@ __1.__ Create an empty GameObject (_GameObject > Create Empty_)
 > * S:[1, 1, 1]
 
 __2.__ Create a new cylinder (_GameObject > 3D Object > Cylinder_)
-> __a.__ change the name of the Cylinder to _Base_
+> __a.__ Shange the name of the Cylinder to _Base_
 >
 > __b.__ Drag the Base under the Slingshot in the Hierarchy, making Slingshot its parent
 >
@@ -117,7 +117,7 @@ __2.__ Create a new cylinder (_GameObject > 3D Object > Cylinder_)
 __3.__ With Base selected, click the three vertical dots next to the _Capsule Collider_ component in the Inspector and select _Remove Component_. This removes the Collider component from Base, which will keep the Projectile from frunning into it
 
 __4.__ Create a new material named _Mat_Slingshot_
-> __a.__Set the _Albedo_ color to any light color
+> __a.__ Set the _Albedo_ color to any light color
 >
 > __b.__ Set the _Smoothness_ to _0_
 >
