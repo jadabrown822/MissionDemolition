@@ -643,3 +643,53 @@ __6.__ Click _PhysMat_Projectile_ and set the _bounciness_ to 1 in the Inspector
 __7.__ Drag _PhysMat_Projectile_ in the Project pane onto the _Projectile_ prefab to apply it to _SphereCollider_ component of the projectile
 
 __8.__ Save the scene, click _Play_, and try launching the projectile again
+
+
+### The Camera Needs Easing
+__1.__ To start with easing to _FollowCam_
+
+```ruby
+// FollowCam.cs
+
+  using System.collections;
+  using Systems.Collections.Generic;
+  using UnityEngine;
+  
+  public class FollowCam : MonoBehaviour {
+    startic public GameObject POI;    // The static point of interest
+
+    [Header("Inscribed")]
+    public float easing = 0.05f
+
+    [Header("Dynsmic")]
+    public float camZ;    // The desired z pos of the camera
+  
+    void Awake() {
+      camZ = this.transform.position.z;
+    }
+  
+  
+    void FixedUpdate() {
+      // A single-line if statement doesn't require braces
+      if (POI -- null) return;    // if there is nor POI, then return
+  
+      // Get the position of poi
+      Vector3 destination  = POI. transform.position;
+
+      // Interpolate from the current Camera position towards the destination
+      destination = Vector3.Lerp(transform.position, destingation, easing);
+  
+      // Force destination.z to be camZ to keep the camera far enough away
+      destination.z = camZ;
+  
+      // Set the camera to the destination
+      transform.position = destination;
+    }
+  
+    /*
+      void Start() {}
+    
+      void Update() {}
+    */
+  }
+```
