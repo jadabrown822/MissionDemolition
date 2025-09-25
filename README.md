@@ -999,3 +999,122 @@ __3.__ Save the script, return to Unity, and select the _CloudCover_ GameObject 
 > __c.__ Assign each of the five _clouds_ in the _Textures & Sprites_ folder of the Project pane to a slot in the _cloudSprites_ array
 
 __4.__ Save the scene and click _Play_
+
+
+## Organizing the Project Pane
+__1.__ Create three folders (_Assets > Create > Folder_) in the Project pane named ___Scripts_, __Prefabs_, and _Materials_
+
+__2.__ Drag the propper assets into the new folders in the Porject pane. Both the physic material and regular materials fo into the _Mateirials folder
+
+__3.__ Change the default name of the _Scenes_ folder (Unity provided) to __Scenes_, which will keep it sorted above less-important assets
+
+
+## Building the Castle
+__1.__ Adjust the Scene pane so that viewing the scene from the back in isometric view
+> __a.__ First make sure that te Scene is not in 2D view by clicking the 2D button of the Scene pane until it is not highlighted
+>
+> __b.__ Click the cone on the axes gizmo opposite of the z-axis
+>
+> __c.__ Click the three-lined arrow next to the word _Back_ un der the axes gizmo, it will become three parallel lines, signifying that its switched from a perspective to an isometric (i.e., orthographic) view
+
+__2.__ Get rid of the Skybox view in the Scene pane. Click _Effects Pop-up_ at the top of the Scene pane
+
+__3.__ Double-click __MainCamera_ in the Hierarchy to zoom the Scene pane to a good view from which to build the castle
+
+
+### Making Walls and Slabs
+__1.__ Create a dubplicate of the Mat_Ground material in the Project pane and name it _Mat_Stone_
+> __a.__ Select _Mat_Ground_ in the Project pane
+>
+> __b.__ Choose _Edit > Duplicate_ from the Unity menu bar
+>
+> __c.__ Change the name from _Mat_Ground_ to _Mat_Stone_
+>
+> __d.__ Select _Mat_Stone_ and set the _Abledo_ Color to _50% gray_ (RGBA:[128, 128, 128, 255])
+
+__2.__ Create a new cube (_GameOBjecy > 3D Object> Cube_) and rename it _Wall_
+> __a.__ Set the _Wall_ Transform to
+> * P:[0, 0, 0]
+> * R:[0, 0, 0]
+> * S:[1, 4, 4]
+>
+> __b.__ Add a Rigidbody Component to Wall (_Component > Physics > Rigidbody_)
+>
+> __c.__ In the Rigidbody component, click the _disclosure triangle_ next to _Constraints_ to see the options there. Constraining any aspect of the Rigidbody prevents it from changing that aspect
+>
+> __d.__ Constrain the _Z_ position of the Wall by setting the Reigidbody _Freeze Position Z_ to _true_. This wil prevent the Wall from moving out of the Z=0 plane in which the game takes palce
+>
+> __e.__ Set the _Freeze Rotation X_ and _Y_ to _true_. This still allowa the Rigid body to sping around the _Z_ axis, which is the only rotation that can see well from the orthographic _MainCamera
+>
+> __f.__ Se tthe Rigidbody Mass to _4_
+>
+> __g.__ Drag the Mat_Stone_ material onto WAll to color it grey
+
+__3.__ Create a new script in the __Scripts folder named _RigidbodySleep_ and enter the code
+
+```cs
+// RigidbodySleep.cs
+
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+  
+  [RequireComponent(typeof(Rigidbody))]
+  
+  public class RigidbodySleep : MonoBehaviour {
+    private int sleepCountdown = 4;
+    private Rigidbody rigid;
+  
+  
+    void Awake() {
+      rigid = GetComponent<Rigidbody>();
+    }
+  
+  
+    void FixedUpdate() {
+      if (sleepCountdown > 0) {
+        rigid.Sleep();
+        sleepCountdown--;
+      }
+    }
+  
+  /*
+    void Start() {}
+  
+    void Update() {}
+  */
+  
+  }
+```
+
+__4.__ Save the RigidbodySleep script and return to Unity
+
+__5.__ Attach the _RigidbodySleep_ script to _Wall_
+
+__6.__ Drag _Wall_ to the Project pane to make it a prefab (be sure ot put it in the _Prefabs folder), after doing so, selete the Wall instance from th eHierarchy pane
+
+__7.__ Select the _Wall prefab in the _Prefabs folder of the Project pane and duplicate it
+> __a.__ Rename Wall 1 to _Slab_
+>
+> __b.__ Double-click _Slab_ in the Project pane
+>
+> __c.__ Select _Slab_ in the Prefab Mode Hierarchy and set its transform to S:[4, 0.5, 4]
+>
+> __d.__ To return from Prefab Mode to a regular Scene view, either click the __<__ at the top left of the Hierarchy pane or click the word _Scenes_ next to the Unity logo that is near the top-left corner of the Scene view
+
+
+### Making a Castle from Walls and Slabs
+__1.__ Create an Empty GameObject to be the root node of the castle (_GameObject > Create Empty_)
+> __a.__ Name it _Castle_
+>
+> __b.__ Set its transform to:
+> * P:[10, 9.5, 0]
+> * R:[0, 0, 0]
+> * S:[1, 1, 1]
+
+__2.__ Drag _Wall_ from the Hierarchy under Castle making it a child of Castle
+
+__3.__ Make three duplicates of Wall and set the positions of each of th efour Walls to:
+* __Wall__ P:[-6, 2, 0]
+* __Wall (1)__ P:[-2, 2, 0]
+* __Wall (2)__ 
