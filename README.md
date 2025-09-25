@@ -1117,4 +1117,9 @@ __2.__ Drag _Wall_ from the Hierarchy under Castle making it a child of Castle
 __3.__ Make three duplicates of Wall and set the positions of each of th efour Walls to:
 * __Wall__ P:[-6, 2, 0]
 * __Wall (1)__ P:[-2, 2, 0]
-* __Wall (2)__ 
+* __Wall (2)__ P:[2, 2, 0]
+* __Wall (3)__ P:[6, 2, 0]
+
+__4.__ Drag _Slab_ from the _Prefabs folder of the Project pane under Castle, making it a child as well
+
+__5.__
