@@ -197,7 +197,7 @@ __1.__ Create a new C# script and name it _Slingshor.cs_ (_Assets > Create> C# S
 >
 > __b.__ Open the Slingshot C# script in VS and enter the code
 
-```ruby
+```cs
   // Slingshot.cs
   
   using System.Collections;
@@ -237,7 +237,7 @@ __1.__ Select _LaunchPoint_ in the Hierarchy
 
 __2.__ Now add the code to the Slingshot C# script
 
-```ruby
+```cs
   // Slingshot.cs
   
   using System.Collections;
@@ -282,7 +282,7 @@ __4.__ Save the scene
 ### Instantiating a Projectile
 __1.__ Copy code to _Slingshot.cs_
 
-```ruby
+```cs
   // Slingshot.cs
   
   using System.Collections;
@@ -352,7 +352,7 @@ __3.__ Click _Play_, move mouse pointer inside the active area for the slingshot
 
 __4.__ Add more to _Slingshot.cs_
 
-```ruby
+```cs
   // Slingshot.cs
   
   using System.Collections;
@@ -471,7 +471,7 @@ __2.__ To create a new FollowCam Script and add it to _MainCamera at the same ti
 
 __3.__ Double-click the FollowCam script to open it
 
-```ruby
+```cs
 // FollowCam.cs
 
   using System.collections;
@@ -513,7 +513,7 @@ __3.__ Double-click the FollowCam script to open it
 
 __4.__ Open the _Slingshot_ C# script and add code
 
-```ruby
+```cs
   // Slingshot.cs
   
   using System.Collections;
@@ -648,7 +648,7 @@ __8.__ Save the scene, click _Play_, and try launching the projectile again
 ### The Camera Needs Easing
 __1.__ To start with easing to _FollowCam_
 
-```ruby
+```cs
 // FollowCam.cs
 
   using System.collections;
