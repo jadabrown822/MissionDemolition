@@ -491,7 +491,7 @@ __3.__ Double-click the FollowCam script to open it
   
     void FixedUpdate() {
       // A single-line if statement doesn't require braces
-      if (POI -- null) return;    // if there is nor POI, then return
+      if (POI == null) return;    // if there is nor POI, then return
   
       // Get the position of poi
       Vector3 destination  = POI. transform.position;
@@ -630,7 +630,7 @@ __2.__ In the Projectile _Rigidbody_ component:
 >
 > __b.__ Set the check box next to _Freeze Position Z_ to true
 >
-> __c.__ Set the check boxes next to _Freex Rotation_ X, Y, and Z to true
+> __c.__ Set the check boxes next to _Freeze Rotation_ X, Y, and Z to true
 
 __3.__ Save the scene, click _Play_, and try to launch the projectile again
 
@@ -671,7 +671,7 @@ __1.__ To start with easing to _FollowCam_
   
     void FixedUpdate() {
       // A single-line if statement doesn't require braces
-      if (POI -- null) return;    // if there is nor POI, then return
+      if (POI == null) return;    // if there is nor POI, then return
   
       // Get the position of poi
       Vector3 destination  = POI. transform.position;
@@ -692,4 +692,290 @@ __1.__ To start with easing to _FollowCam_
       void Update() {}
     */
   }
+```
+
+__2.__ Add to _FollowCam_ to impose minimum X and Y limits on the FollowCam position, preventing it from going too far to the left or down
+
+```cs
+// FollowCam.cs
+
+  using System.collections;
+  using Systems.Collections.Generic;
+  using UnityEngine;
+  
+  public class FollowCam : MonoBehaviour {
+    startic public GameObject POI;    // The static point of interest
+
+    [Header("Inscribed")]
+    public float easing = 0.05f
+    public Vector2 minXY = Vector2.zero;    // Vector2.zero is [0,0]
+
+    [Header("Dynsmic")]
+    public float camZ;    // The desired z pos of the camera
+  
+    void Awake() {
+      camZ = this.transform.position.z;
+    }
+  
+  
+    void FixedUpdate() {
+      // A single-line if statement doesn't require braces
+      if (POI == null) return;    // if there is nor POI, then return
+  
+      // Get the position of poi
+      Vector3 destination  = POI. transform.position;
+
+      // Limit the minimum values of destination.x & destingation.y
+      destination.x = Mathf.Max(minXY.x, destination.x);
+      destination.y = Mathf.Max(minXY.y, destination.y);
+
+      // Interpolate from the current Camera position towards the destination
+      destination = Vector3.Lerp(transform.position, destingation, easing);
+  
+      // Force destination.z to be camZ to keep the camera far enough away
+      destination.z = camZ;
+  
+      // Set the camera to the destination
+      transform.position = destination;
+    }
+  
+    /*
+      void Start() {}
+    
+      void Update() {}
+    */
+  }
+```
+
+
+### Returning for Another Shot
+__1.__ Open the FollowCam C# script in VS and modify the __FixedUpdate()__
+
+```cs
+// FollowCam.cs
+
+  using System.collections;
+  using Systems.Collections.Generic;
+  using UnityEngine;
+  
+  public class FollowCam : MonoBehaviour {
+    startic public GameObject POI;    // The static point of interest
+
+    [Header("Inscribed")]
+    public float easing = 0.05f
+    public Vector2 minXY = Vector2.zero;    // Vector2.zero is [0,0]
+
+    [Header("Dynsmic")]
+    public float camZ;    // The desired z pos of the camera
+  
+    void Awake() {
+      camZ = this.transform.position.z;
+    }
+  
+  
+    void FixedUpdate() {
+    /*
+      // A single-line if statement doesn't require braces
+      if (POI == null) return;    // if there is nor POI, then return
+  
+      // Get the position of poi
+      Vector3 destination  = POI. transform.position;
+    */
+
+      Vector3 destination = Vector3.zero;
+
+      if(POI != null) {
+        // If the POI has Rigidbody, check to see if it is sleeping
+        Rigidbody poiRigid = POI.GetComponent<Rigidbody>();
+        if((poiRigid != null) && poiRigid.IsSleeping()) {
+          POI = null;
+        }
+      }
+
+      if(POI != null) {
+        destination = POI.transform.position;
+      }
+
+      // Limit the minimum values of destination.x & destingation.y
+      destination.x = Mathf.Max(minXY.x, destination.x);
+      destination.y = Mathf.Max(minXY.y, destination.y);
+
+      // Interpolate from the current Camera position towards the destination
+      destination = Vector3.Lerp(transform.position, destingation, easing);
+  
+      // Force destination.z to be camZ to keep the camera far enough away
+      destination.z = camZ;
+  
+      // Set the camera to the destination
+      transform.position = destination;
+    }
+  
+    /*
+      void Start() {}
+    
+      void Update() {}
+    */
+  }
+```
+
+__2.__ Adjust the _Sleep Threshold_ of the Unity Physics settings:
+> __a.__ Choose _Edit > Project Settings_ from the Unity menu, and sleect the _Physics_ tab (not Physics 2D)
+>
+> __b.__ Change _Sleep Threshold_ from 0.005 to _0.01_ and close the Project Settings window
+
+__4.__ Save the scene, and then play the game to see the camera reset
+
+
+### Scaling the Camera Size to Keep the Ground in View
+__1.__ Add lines to the FollowCam script
+
+```cs
+// FollowCam.cs
+
+  using System.collections;
+  using Systems.Collections.Generic;
+  using UnityEngine;
+  
+  public class FollowCam : MonoBehaviour {
+    startic public GameObject POI;    // The static point of interest
+
+    [Header("Inscribed")]
+    public float easing = 0.05f
+    public Vector2 minXY = Vector2.zero;    // Vector2.zero is [0,0]
+
+    [Header("Dynsmic")]
+    public float camZ;    // The desired z pos of the camera
+  
+    void Awake() {
+      camZ = this.transform.position.z;
+    }
+  
+  
+    void FixedUpdate() {
+    /*
+      // A single-line if statement doesn't require braces
+      if (POI == null) return;    // if there is nor POI, then return
+  
+      // Get the position of poi
+      Vector3 destination  = POI. transform.position;
+    */
+
+      Vector3 destination = Vector3.zero;
+
+      if(POI != null) {
+        // If the POI has Rigidbody, check to see if it is sleeping
+        Rigidbody poiRigid = POI.GetComponent<Rigidbody>();
+        if((poiRigid != null) && poiRigid.IsSleeping()) {
+          POI = null;
+        }
+      }
+
+      if(POI != null) {
+        destination = POI.transform.position;
+      }
+
+      // Limit the minimum values of destination.x & destingation.y
+      destination.x = Mathf.Max(minXY.x, destination.x);
+      destination.y = Mathf.Max(minXY.y, destination.y);
+
+      // Interpolate from the current Camera position towards the destination
+      destination = Vector3.Lerp(transform.position, destingation, easing);
+  
+      // Force destination.z to be camZ to keep the camera far enough away
+      destination.z = camZ;
+  
+      // Set the camera to the destination
+      transform.position = destination;
+
+      // Set the orthographicSize of the Camera to keep the Ground in view
+      Camera.main.orthographicSize = destination.y + 10;
+    }
+  
+    /*
+      void Start() {}
+    
+      void Update() {}
+    */
+  }
+```
+
+__2.__ Click the _2D_ button at the top of the Scene pane to switch to 2D view (which will make this easier to see)
+
+__3.__ Double-click _Ground_ in the Hierarchy to zoomm out and show the entire Ground GameObject in the Scene pane
+
+__4.__ Select __Main_Camera_, click _Play_, and launch a projectile
+
+__5.__ Stop playback, and save the scene
+
+
+## Providing Vection and a Sense of Speed
+### Importing Cloud Art
+__1.__ Go to __http://book.prototools.net/clouds.unitypackage__ in any browser. This should download the clouds.unitypackage file in Downloads folder
+
+__2.__ From the Unity menu bar, choose _Assets > Import Package > Custom Package_
+
+__3.__ Navigate to the Downlaods folder, and choose _clouds.unitypackage_
+
+__4.__ Click _Open_
+
+__5.__ Click the _All_ button on the bottom-left of the Import Unity Package window to mkse sure that everything in the UnityPackage is selected
+
+__6.__ Click the _Import_ button to bring these assets into the Project psne
+
+
+### Using the Cloud Sprites in Our Game
+__1.__ Create and Empty GameObject in the Scene (_GameObject > Create Empty_)
+> __a.__ Rename this GameObject to _CloudCover_, and select it in the Hierarchy
+>
+> __b.__ Ensure that the CloudCover _Transform compontent is set to
+> * P:[0, 0, 0]
+> * R:[0, 0, 0]
+> * S:[1, 1, 1]
+>
+> __c.__ In the CloudCover Inspector, click the _Add Component_ button and choose _New Script_
+>
+> __d.__ Name the new script _CloudCover_, and click _Create and Add_
+
+__2.__ Open the _CloudCover_ script in VS and enter code
+
+```cs
+// CloudCover.cs
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CloudCover : MonBehaviour {
+  [Header("Inscribes")]
+  public sprite[] cloudSprites;
+  public int numClouds = 40;
+  public Vector3 minPos = new Vector3(-20, -5, -5);
+  public Vector3 maxPos = new Vector3(300. 40. 5);
+  [Tooltip("For scaleRange, x is the min value, y is the max vlaue")]
+  public Vector2 scaleRange = new Vector2(1, 4);
+
+
+  void Start() {
+    Transform parentTrans = this.transform;
+    GameObject cloudGO;
+    Transform cloudTrans;
+    SpriteRenderer sRend;
+    float scaleMult;
+
+    for(int i = 0; i < numClouds; i++) {
+      // Create a new GameObject (from scratch!) and get its Transform
+      cloudGO = new GameObject();
+      cloudTrans = cloudGO.transform;
+      sRend = cloudGO.AddComponent<SpriteRenderer>();
+
+      int spriteNum = Random.Range(0, cloudSprite.Lenght);
+      sRend.sprite = cloudSprites[spriteNum];
+
+      cloudTrans.position = RandomPos();
+      cloudTrans.SetParent(parentTrans, true);
+
+      scaleMult = Random.Range()
+    }
+  }
+}
 ```
