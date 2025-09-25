@@ -940,42 +940,62 @@ __2.__ Open the _CloudCover_ script in VS and enter code
 
 ```cs
 // CloudCover.cs
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CloudCover : MonBehaviour {
-  [Header("Inscribes")]
-  public sprite[] cloudSprites;
-  public int numClouds = 40;
-  public Vector3 minPos = new Vector3(-20, -5, -5);
-  public Vector3 maxPos = new Vector3(300. 40. 5);
-  [Tooltip("For scaleRange, x is the min value, y is the max vlaue")]
-  public Vector2 scaleRange = new Vector2(1, 4);
-
-
-  void Start() {
-    Transform parentTrans = this.transform;
-    GameObject cloudGO;
-    Transform cloudTrans;
-    SpriteRenderer sRend;
-    float scaleMult;
-
-    for(int i = 0; i < numClouds; i++) {
-      // Create a new GameObject (from scratch!) and get its Transform
-      cloudGO = new GameObject();
-      cloudTrans = cloudGO.transform;
-      sRend = cloudGO.AddComponent<SpriteRenderer>();
-
-      int spriteNum = Random.Range(0, cloudSprite.Lenght);
-      sRend.sprite = cloudSprites[spriteNum];
-
-      cloudTrans.position = RandomPos();
-      cloudTrans.SetParent(parentTrans, true);
-
-      scaleMult = Random.Range()
+  
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+  
+  public class CloudCover : MonBehaviour {
+    [Header("Inscribes")]
+    public sprite[] cloudSprites;
+    public int numClouds = 40;
+    public Vector3 minPos = new Vector3(-20, -5, -5);
+    public Vector3 maxPos = new Vector3(300. 40. 5);
+    [Tooltip("For scaleRange, x is the min value, y is the max vlaue")]
+    public Vector2 scaleRange = new Vector2(1, 4);
+  
+  
+    void Start() {
+      Transform parentTrans = this.transform;
+      GameObject cloudGO;
+      Transform cloudTrans;
+      SpriteRenderer sRend;
+      float scaleMult;
+  
+      for(int i = 0; i < numClouds; i++) {
+        // Create a new GameObject (from scratch!) and get its Transform
+        cloudGO = new GameObject();
+        cloudTrans = cloudGO.transform;
+        sRend = cloudGO.AddComponent<SpriteRenderer>();
+  
+        int spriteNum = Random.Range(0, cloudSprite.Lenght);
+        sRend.sprite = cloudSprites[spriteNum];
+  
+        cloudTrans.position = RandomPos();
+        cloudTrans.SetParent(parentTrans, true);
+  
+        scaleMult = Random.Range(scaleRange.x, scaleRange.y);
+        cloudTrans.localScale = Vector3.one * scaleMult;
+      }
+    }
+  
+  
+    Vector3 RandomPos() {
+      Vector3 pos = new Vector3();
+      pos.x = Random.Range(minPos.x, maxPox.x);
+      pos.y = Random.Range(minPos.y, maxPox.y);
+      pos.z = Random.Range(minPos.z, maxPox.z);
+  
+      return pos;
     }
   }
-}
 ```
+
+__3.__ Save the script, return to Unity, and select the _CloudCover_ GameObject in the Hierarchy. All Inscribed values for the CloudCover script have ben set, except for the cloudSprites
+> __a.__ Open the _disclosure triangle_ for the _cloudSprites_ array in the in the CloudCover Component of the INspector
+>
+> __b.__ Type the number _5_ in the fied next to Cloud Sprites and press return/enter to add five empty elements to the array
+>
+> __c.__ Assign each of the five _clouds_ in the _Textures & Sprites_ folder of the Project pane to a slot in the _cloudSprites_ array
+
+__4.__ Save the scene and click _Play_
