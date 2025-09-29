@@ -1122,4 +1122,42 @@ __3.__ Make three duplicates of Wall and set the positions of each of th efour W
 
 __4.__ Drag _Slab_ from the _Prefabs folder of the Project pane under Castle, making it a child as well
 
-__5.__
+__5.__ Make two dublicates of Slab and set the positions of the three Slabs to:
+* __Slab__ P:[-4, 4.25, 0]
+* __Slab (1)__ P:[0, 4.25, 0]
+* __Slab (2)__ P:[4, 4.25, 0]
+
+__6.__ Before setting up the next floor of the Castle, modify grid the grid settings
+> __a.__ At the top of the Scene pane, click the grid icon of the _Grid Pop-up_ until it id higlighted in bright grey. The click the _downward facing triangle_ of the _Grid Pop-up_ to access its menu
+>
+> __b.__ Click the Three dots inthe top-right corner of the pop-up menu
+>
+> __c.__ Choose _Edit Grid and Snap Settings ..._
+>
+> __d.__ Under the _Increment Snap_ heading, ensure that the _Move X_ amount is _0.25_. Because all three dimentions are locked to each other, the settings for X will also set Y and Z
+>
+> __e.__ Close the _Grid and Snap_ window
+
+__7.__ To make the second floor of the castle, use mouse to select any three adjacent Walls and the two Slabs above them
+> __a.__ Duplicate them
+>
+> __b.__ Make sure that the Move tool is selected
+>
+> __c.__ Hold the Ctrl key and Move thme to be restingjust above the others. By holding Ctrl constrain the movement to the 0.25m grid that was set before, which should allow the exect position of the second floor. If need to tweak thier positions, the finl positions for the nre Walls and Slabs should be as follows
+> * __Wall (4)__ P:[-4, 6.5, 0]
+> * __Wall (5)__ P:[0, 6.5 0]
+> * __Wall (6)__ P:[4, 6.5, 0]
+> * __Slab (3)__ P:[-2, 8.75, 0]
+> * __Slab (4)__ P:[2, 8.75, 0]
+
+__8.__ Continue the duplication and grid movemnet tricks to make the third floor by adding two more Walls and a Slab:
+* __Wall (7)__ P:[-2, 11, 0]
+* __Wall (8)__ P:[2, 11, 0]
+* __Slab (5)__ P:[0, 13.25, 0]
+
+__9.__ Add one final wall to the top off the Castle
+* __Wall (9)__ P:[0, 15.5, 0]
+
+__10.__ Make the Castle GameObject a prefab by dragging _Castle_ from the Hierarchy pane over to the __Prefabs_ folder of the Project pane
+
+__11.__ Select the _Slab_ prefab in the Project pane and set its _Transform Scale X_ to _3.5_. Every Slab in the castle should reflect this change
