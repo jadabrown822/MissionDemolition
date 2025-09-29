@@ -1161,3 +1161,7 @@ __9.__ Add one final wall to the top off the Castle
 __10.__ Make the Castle GameObject a prefab by dragging _Castle_ from the Hierarchy pane over to the __Prefabs_ folder of the Project pane
 
 __11.__ Select the _Slab_ prefab in the Project pane and set its _Transform Scale X_ to _3.5_. Every Slab in the castle should reflect this change
+
+
+### Making a Goal Using Nested Prefab
+__1.__ Add a Goal cube to the Castle 
