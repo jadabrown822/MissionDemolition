@@ -479,7 +479,7 @@ __3.__ Double-click the FollowCam script to open it
   using UnityEngine;
   
   public class FollowCam : MonoBehaviour {
-    startic public GameObject POI;    // The static point of interest
+    static public GameObject POI;    // The static point of interest
   
     [Header("Dynsmic")]
     public float camZ;    // The desired z pos of the camera
@@ -656,7 +656,7 @@ __1.__ To start with easing to _FollowCam_
   using UnityEngine;
   
   public class FollowCam : MonoBehaviour {
-    startic public GameObject POI;    // The static point of interest
+    static public GameObject POI;    // The static point of interest
 
     [Header("Inscribed")]
     public float easing = 0.05f
@@ -704,7 +704,7 @@ __2.__ Add to _FollowCam_ to impose minimum X and Y limits on the FollowCam posi
   using UnityEngine;
   
   public class FollowCam : MonoBehaviour {
-    startic public GameObject POI;    // The static point of interest
+    static public GameObject POI;    // The static point of interest
 
     [Header("Inscribed")]
     public float easing = 0.05f
@@ -759,7 +759,7 @@ __1.__ Open the FollowCam C# script in VS and modify the __FixedUpdate()__
   using UnityEngine;
   
   public class FollowCam : MonoBehaviour {
-    startic public GameObject POI;    // The static point of interest
+    static public GameObject POI;    // The static point of interest
 
     [Header("Inscribed")]
     public float easing = 0.05f
@@ -837,7 +837,7 @@ __1.__ Add lines to the FollowCam script
   using UnityEngine;
   
   public class FollowCam : MonoBehaviour {
-    startic public GameObject POI;    // The static point of interest
+    static public GameObject POI;    // The static point of interest
 
     [Header("Inscribed")]
     public float easing = 0.05f
@@ -1975,3 +1975,276 @@ __5.__ Select __MainCamera_ in the Hierarchy. In the _MissionDemolition (Script)
 > __e.__ Drag each of the numbered CAstle prefabs made into an element of the __castles__ array to set the levels for the game. Try to order them from easiest to most difficult
 
 __6.__ Save the scene
+
+
+## Showing Different View of the Level
+__1.__ Create a new empty GameObject (_GameObject > Create Empty_) and name it _ViewBoth_
+
+__2.__ Set the transform of ViewBoth
+* P:[25, 25, 0]
+* R:[0, 0, 0]
+* S:[1, 1, 1]
+
+__3.__ Add a UI BUtton to the scene (_GameObject > UI > Button_)
+> __a.__ Name the button _UIButton_View_
+>
+> __b.__ Give the button the RectTransform settings
+> * P:[0, -10, 0]
+> * Width: 200
+> * Height: 40
+> * Min:[0.5, 1]
+> * Max:[0.5, 1]
+> * Pivot:[0.5, 1]
+> * OnClick(): 
+>   * Runtime Only
+>   * FollowCam.SwitchView
+>   * _MainCamera
+
+__4.__ Open the disclosure triangle next to _UIButton_View_ in the Hierarchy and give the _Text_ child of UIButton_View the _Text_ settings
+* Text: Switch View
+* Style: Bold
+* Size: 16
+
+__5.__ Open the _FollowCam_ script in VS and make changes
+
+```cs
+// FollowCam.cs
+
+  using System.collections;
+  using Systems.Collections.Generic;
+  using UnityEngine;
+  
+  public class FollowCam : MonoBehaviour {
+    static private FollowCam S;         // Another private Singleton
+    static public GameObject POI;       // The static point of interest
+
+    public enum eView {none, slingshot, castle, both};
+
+    [Header("Inscribed")]
+    public float easing = 0.05f
+    public Vector2 minXY = Vector2.zero;    // Vector2.zero is [0,0]
+    public GameObject viewBothGO;
+
+    [Header("Dynsmic")]
+    public float camZ;    // The desired z pos of the camera
+    public eView nextView = eView.slingshot;
+  
+    void Awake() {
+      S = this;
+      camZ = this.transform.position.z;
+    }
+  
+  
+    void FixedUpdate() {
+      /*
+        // A single-line if statement doesn't require braces
+        if (POI == null) return;    // if there is nor POI, then return
+  
+        // Get the position of poi
+        Vector3 destination  = POI. transform.position;
+       */
+
+      Vector3 destination = Vector3.zero;
+
+      if(POI != null) {
+        // If the POI has Rigidbody, check to see if it is sleeping
+        Rigidbody poiRigid = POI.GetComponent<Rigidbody>();
+        if((poiRigid != null) && poiRigid.IsSleeping()) {
+          POI = null;
+        }
+      }
+
+      if(POI != null) {
+        destination = POI.transform.position;
+      }
+
+      // Limit the minimum values of destination.x & destingation.y
+      destination.x = Mathf.Max(minXY.x, destination.x);
+      destination.y = Mathf.Max(minXY.y, destination.y);
+
+      // Interpolate from the current Camera position towards the destination
+      destination = Vector3.Lerp(transform.position, destingation, easing);
+  
+      // Force destination.z to be camZ to keep the camera far enough away
+      destination.z = camZ;
+  
+      // Set the camera to the destination
+      transform.position = destination;
+
+      // Set the orthographicSize of the Camera to keep the Ground in view
+      Camera.main.orthographicSize = destination.y + 10;
+    }
+
+
+    public void SwitchView(eView newView) {
+        if (newView == eView.none) {
+            newView = nextView;
+        }
+
+        switch (newView) {
+            case eView.slingshot:
+                POI = null;
+                nextView = eView.castle;
+                break;
+
+            case eView.castle:
+                POI = MissionDemolition.GET_CASTLE();
+                nextView = eView.both;
+                break;
+
+            case eView.both:
+                POI = viewBothGO;
+                nextView = eView.slingshot;
+                break;
+        }
+    }
+
+
+    public void SwitchView() {
+        SwitchView(eView.none);
+    }
+
+
+    static public void SWITCH_VIEW(eView newView) {
+        S.SwitchView(newView);
+    }
+  
+    /*
+      void Start() {}
+    
+      void Update() {}
+    */
+  }
+```
+
+__7.__ Save the _FollowCam_ script and return to Unity
+
+__8.__ Select __MainCamera_ in the Hierarchy
+> __a.__ Assign the _ViewBoth_ GameObject in the Hierarchy to the __viewBothGO__ field of the _FollowCam_ component of the _MainCamera Inspector
+
+__9.__ Select _UIButton_View_ (under Canvas) in the Hierarchy
+> __a.__ Click the __+__ button at the bottom of the _On Click()_ section of the Button component in the UIBUtton_View Inspector
+>
+> __b.__ Underneath the _Runtime Only_ button is a field that currently displays _None (Object)_. Click the tiny circular target to the right of this _None (Object)_ field and choose __MainCamera_ from the window that pops up (click the _Scene_ tab and then double-click __MainCamera_). This chooses _MainCamera as the GameObject that will receive the  call from UIButton_View
+>
+> __c.__ Click the pop-up menu betton that currently displays _No Function_ and choose _FollowCam > SwitchView()_. Unity constructs this list of possible functions to call by looking for all the public methods on scripts attached to _MainCamera that fit the type of UnityEvent the Button can send
+
+__10.__ Open the MissionDemolition script in VS and make changes
+
+```cs
+// MissionDemolition.cs
+
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+
+    public enum GameMode {
+        idle,
+        playing,
+        levelEnd
+    }
+
+
+    public class MissionDemolition : MonoBehaviour {
+        static private MissionDemolition S;     // a private Singleton
+
+        [Header("Inscribed")]
+        public Text uitLevel;               // The UIText_Level Text
+        public Text uitShots;               // The UIText_Shots Text
+        public Vector3 castlePos;           // The place to put castles
+        public GameObject[] castles;        // An array of the castles
+
+        [Header("Dynamic")]
+        public int level;                               // the current level
+        public int levelMax;                            // the number of levels
+        public int shotsTaken;
+        public GameObject castle;                       // The current castle
+        public GameMode mode = GameMode.idle;
+        public string showing = "Show Slingshot";       // FollowCam mode
+
+
+        void Start() {
+            S = this;       // Define the Singleton
+
+            level = 0;
+            shotsTaken = 0;
+            levelMax = castles.length;
+
+            StartLevel();
+        }
+
+
+        void StartLevel() {
+            // Get rid of the old castle if one exists
+            if (castle != null) {
+                Destroy(castle);
+            }
+
+            // Destroy old projectiles if they exist (the method is not yet written)
+            Projectile.DESTROY_PROJECTILES();       // This will be underlined in red
+
+            // Instantiate the new castle
+            castle = Instantiate<GameObject>(castles[level]);
+            castle.transform.posisiton = castlePos;
+
+            // Reset the goal
+            Goal.goalMet = false;
+
+            UpdateGUI();
+
+            mode = GameMode.playing;
+
+            // Zoom out to show both
+            FollowCam.SWITCH_VIEW(FollowCam.eView.both);
+        }
+
+
+        void UpdateGUI() {
+            // Show the data in the GUITexts
+            uitLevel.text = "Level: " + (level + 1) + " of " + levelMax;
+            uitShots.text = "Shots Taken: " + shotsTaken;
+        }
+
+
+        void Update() {
+            UpdateGUI();
+
+            // Check for level end
+            if ((mode == Gamemode.playing) && Goal.goalMet) {
+                // change mode to stop checking for level end
+                mode = GameMode.levelEnd;
+
+                // Zoom out to show both
+                FollowCam.SWITCH_VIEW(FollowCam.eView.both);
+
+                // Start the next level in 2 seconds
+                Invoke("NextLevel", 2f);
+            }
+        }
+
+
+        void NextLevel() {
+            level++;
+
+            if (level == levelMax) {
+                level = 0;
+                shotsTaken = 0;
+            }
+
+            StartLevel();
+        }
+
+
+        // static method allows code anywhere to increment shotsTaken
+        static public void SHOT_FIRED() {
+            S.shotsTaken++;
+        }
+
+
+        // Static method that allows code anywhere to get a reference to S.castle
+        static public GameObject GET_CASTLE() {
+            return S.castle
+        }
+    }
+```
