@@ -1209,3 +1209,23 @@ __3.__ Return to the Scene Mode (by clicking the word _Scenes_ in the top-left o
 __1.__ Select the _Castle_ instance in the Hierarchy and set its position to P:[50, -9.5. 0]
 
 __2.__ Click _Play_ and try to knock the Castle down with a Projectile
+
+
+## Fixing Rigidbody's Insomia
+__1.__ Add a new Projectile script to the Projectile prefab:
+> __a.__ Select the _Projectile_ prefab in the Project pane
+>
+> __b.__ Click the _Add Component_ button at the bottom of the Projectile Inspector
+>
+> __c.__ Type _Projectile_ into the Add Component search box and click _New script_
+>
+> __d.__ Click _Create and Add_
+
+__2.__ Move the _Projectile_ script into the ___Scripts_ folder
+
+__3.__ Open the _Projectile script in VS and enter the code
+
+```cs
+// Projectile.cs
+
+```
