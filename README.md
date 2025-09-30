@@ -1655,3 +1655,30 @@ __5.__ Change each UIText to match:
   * Style: Bold
   * Size 28
   * Alignment: right
+
+
+## Adding More Game Management
+__1.__ Create a new C# script in the __Scripts folder named _MissionDemolition_
+> __a.__ Attach the _MissionDemolition_ script to _MainCamera. This serves as the game state manager for the game
+>
+> __b.__ Open the _MissionDemolition_ script in VS and copy code
+
+```cs
+// MissionDemolition.cs
+
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+
+    public enum GameMode {
+        idle,
+        playing,
+        levelEnd
+    }
+
+
+    public class MissionDemolition : MonoBehaviour {
+        static private MissionDemolition S; // a private Singleton
+    }
+```
