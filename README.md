@@ -1679,6 +1679,9 @@ __1.__ Create a new C# script in the __Scripts folder named _MissionDemolition_
 
 
     public class MissionDemolition : MonoBehaviour {
-        static private MissionDemolition S; // a private Singleton
+        static private MissionDemolition S;     // a private Singleton
+
+        [Header("Inscribed")]
+        public Text uitLevel;       // The UIText_Level Text
     }
 ```
