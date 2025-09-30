@@ -1320,9 +1320,9 @@ __2.__ Create a C# script (_Assets > Create > C# Script_) in the __Scripts folde
 > __c.__ Open the _ProjectileLine_ script in VS and enter the code
 
 ```cs
-// ProjectileLline.cs
+// ProjectileLine.cs
 
-  using System;
+  using System.collections;
   using system.Collections.Generic;
   using UnityEngine
   
@@ -1476,3 +1476,182 @@ __5.__ Modify the Slingshot script to add a ProjectileLine to each Projectile ri
     
   }
 ```
+
+
+### Dimming the PojectileLines with Each Shot
+__1.__ Open the ProjectileLIne script in VS and add code
+
+```cs
+// ProjectileLine.cs
+
+  using System.Collections;
+  using system.Collections.Generic;
+  using UnityEngine
+  
+  [RequireComponent (typeof(LineRenderer))]
+  public class ProjectileLine : Monobehaviour {
+    static List <ProjectileLine> PROJ_LINES = new List<ProjectileLine>();
+    private const float DIM_MULT = 0.75f;
+
+    private LineRenderer _line;
+    private bool _drawing = true;
+    private Projectile _projectile;
+  
+  
+    void Start() {
+      _line = GetComponent<LineRenderer>();
+      _line.positioncount = 1;
+      _line.SetPosition(0, transform.position);
+  
+      _projectile = GetComponentInParent<{rpjectile>();
+
+      ADD_LINE(this);
+    }
+  
+  
+    void FixedUpdate() {
+      if (_drawing) {
+        _line.positionoCount++;
+        _line.SetPosition(_line.positionCount - 1, transform.position);
+    
+        // If the Prjectile Rigidbody is sleeping, stop drawing
+        if (_projectile != null) {
+          if (!_projectile.awake) {
+            _drawing = false;
+            _projectile = null;
+          }
+        }
+      }
+    }
+
+
+    private void OnDestroy() {
+      // Remove this ProjectileLine from PROJ_LINES
+      PROJ_LINES.Remove(this);
+    }
+
+
+    static void ADD_LINE(ProjectileLine newLine) {
+      Color col;
+
+      // Iterate over all the old lines and dim them
+      foreach (ProjectileLine pl in PROJ_LINES) {
+        col = pl._line.startcolor;
+        col = col * DIM_MULT;
+        pl._line.startColor = pl._line.endColor = col;
+      }
+
+      // Add newLine to the List
+      PROJ_LINES. Add(newLine);
+    }
+
+    /*
+      void update() {...}
+    */
+  }
+```
+
+__2.__ Save the ProjectileLine script, return to UNity, and press Play
+
+__3.__ Stop playback and save the scene
+
+
+## Hitting the Goal
+__1.__ Create a new C# script named _Goal_
+
+__2.__ Attach the _Goal_ script tothe _Goal prefab_ in the _Prefabs folder of the Project pane
+
+__3.__ Open the _Goal_ script in VS and enter the code
+
+```cs
+// Goal.cs
+
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+
+  [RequireComponent(typeof(Renderer))]
+  public class Goal : MonoBehaviour {
+    // A static field acessible by code anywhere
+    static public bool goalMet = false;
+
+
+    void OnTriggerEnter(Collider other) {
+      // When the trigger is hit by somethign
+      // Check to see if it's a Projectile
+      Projectile proj = other.GetComponent<Projectile>();
+      if (proj != null) {
+        // If so, set goatMet to true
+        Goal.goalMet = true;
+
+        // Also set the alpha of the color to a higher opacity
+        Material mat = GetComponent<Renderer>().material;
+        Color c = mat.color;
+        c.a = 0.75f;
+        mat.color = c;
+      }
+    }
+
+    /*
+      void Start() {...}
+      void Update() {...}
+    */
+
+  }
+```
+
+__4.__ Save the Goal script, return to UNity, and press Play
+
+__5.__ Save the scene
+
+
+# From Prototype to First Playable
+## Adding More Castles
+__1.__ Rename _Castle_ prefab to _Castle 0_
+
+__2.__ Make a duplicate of the _Castle 0_ prefab in the Project pane. It should name itself _Castle 1_
+
+__3.__ Double-click _Castle 1_ in the _Prefabs folder to enter Prefab Mode in the Scene view
+
+__4.__ After createing all castles, return to the _Scene_ pane to _Scene view_ mode
+
+__5.__ Delete the _Castle_ instance that is still in the main scene
+
+__6.__ Save the scene
+
+
+## Adding UI to the Scene
+__1.__ Add a Unity Text field to the scene (_GameObject > UI > Text_) and name it _UIText_Level_
+
+__2.__ Near the top left of the Game pane, Makesure that the aspect ratio is set to _Full HD (1920x1080)_
+
+__3.__ Select the _Canvas_ in the Hierarchy
+> __a.__ In the _Canvas Scaler_ component of the Inspector, set _UI SCale MOde_ to _Scale With Screen Size_. This will make sure that if the game is run at anythign other than 1920x1080, the UI will scale to the new screen size
+>
+> __b.__ The Canvas Scalar's _Reference Resolution_ setting appears, which need to be set to X: _1920_, Y: _1080_ so that it matched the Game pane
+
+__4.__ Create a second UI > Text and name it _UIText_Shots_
+
+__5.__ Change each UIText to match:
+* __UIText_Level__
+  * P:[10, -10, 0]
+  * Width: 256
+  * Height: 32
+  * Min:[0, 1]
+  * Max:[0, 1]
+  * Pivot:[0, 1]
+  * Text: Level: 0 of 4
+  * Style: Bold
+  * Size 28
+
+* __UIText_Shots__
+  * P:[10, -10, 0]
+  * Width: 256
+  * Height: 32
+  * Min:[1, 1]
+  * Max:[1, 1]
+  * Pivot:[1, 1]
+  * Text: Shots Taken: 0
+  * Style: Bold
+  * Size 28
+  * Alignment: right
