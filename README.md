@@ -1289,3 +1289,5 @@ public class Projectile : MonoBehaviour {
   */
 }
 ```
+
+__2.__ Save the _Projectile_ script and return to Unity
