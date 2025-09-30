@@ -1228,66 +1228,117 @@ __3.__ Open the _Projectile script in VS and enter the code
 ```cs
 // Projectile.cs
 
-using Systems.Collection;
-using Systems.Collections.Generic;
-using UnityEngine;
-
-[Requirecomponet (typeof(Rigidbody))]
-public class Projectile : MonoBehaviour {
-  const int LOOKBACK_COUNT = 10;
-
-  [SerializedField]
-  private bool _awake = true;
-  public bool awake {
-    get {return _awake;}
-    private set {_awake =value;}
-  }
-
-  private Vector3 prevPos;
-  // This private List stores the history of Projectile's move distance
-  private List<float> deltas = new List<float>();
-  private Rigidbody rigid;
-
-
-  void Start() {
-    rigis = Getcomponent<Rigidbody>();
-    awake = true;
-    prevPos = new Vector3(1000, 1000, 0);
-    deltas.Add(1000);
-  }
-
-
-  void FixedUpdate() {
-    if (rigid.isKinimatic || !awake) return;
-
-    Vector3 deltaV3 = transform.position - prevPos;
-    deltas.Add(deltaV3.magnitude);
-    prevPos = transform.position;
-
-    // Limit lookback;
-    while (deltas.Count > LOOKBACK_COUNT) {
-      deltas.RemoveAt(0);
+  using Systems.Collection;
+  using Systems.Collections.Generic;
+  using UnityEngine;
+  
+  [Requirecomponet (typeof(Rigidbody))]
+  public class Projectile : MonoBehaviour {
+    const int LOOKBACK_COUNT = 10;
+  
+    [SerializedField]
+    private bool _awake = true;
+    public bool awake {
+      get {return _awake;}
+      private set {_awake =value;}
     }
-
-    // Iterate over deltas and find the greatest one
-    float maxDelta = 0;
-
-    foreach(float f in deltas) {
-      if (f > maxDelta) maxDelta = f;
+  
+    private Vector3 prevPos;
+    // This private List stores the history of Projectile's move distance
+    private List<float> deltas = new List<float>();
+    private Rigidbody rigid;
+  
+  
+    void Start() {
+      rigis = Getcomponent<Rigidbody>();
+      awake = true;
+      prevPos = new Vector3(1000, 1000, 0);
+      deltas.Add(1000);
     }
-
-    // If the Projectile hasn't moved more that the sleepThreshold
-    if (maxDelta <= Physics.sleepThreshold) {
-      // Set awake to false and put rigidbody to sleep
-      awake = false;
-      rigid.Sleep();
+  
+  
+    void FixedUpdate() {
+      if (rigid.isKinimatic || !awake) return;
+  
+      Vector3 deltaV3 = transform.position - prevPos;
+      deltas.Add(deltaV3.magnitude);
+      prevPos = transform.position;
+  
+      // Limit lookback;
+      while (deltas.Count > LOOKBACK_COUNT) {
+        deltas.RemoveAt(0);
+      }
+  
+      // Iterate over deltas and find the greatest one
+      float maxDelta = 0;
+  
+      foreach(float f in deltas) {
+        if (f > maxDelta) maxDelta = f;
+      }
+  
+      // If the Projectile hasn't moved more that the sleepThreshold
+      if (maxDelta <= Physics.sleepThreshold) {
+        // Set awake to false and put rigidbody to sleep
+        awake = false;
+        rigid.Sleep();
+      }
     }
+  
+    /*
+      void Update() {...}
+    */
   }
-
-  /*
-    void Update() {...}
-  */
-}
 ```
 
 __2.__ Save the _Projectile_ script and return to Unity
+
+
+## Adding a ProjectileLine Trail
+__1.__ Start by creating an empty GameObject (_GameObject > Create Empty_) and naming it _ProjectileLine_
+> __a.__ Reset the ProjectileLine's Transform to
+> * P:[0, 0, 0]
+> * R:[0, 0, 0]
+> * S:[1, 1, 1]
+>
+> __b.__ Add a Line Renderer component (_Components > Effects > Line Renderer_)
+>
+> __c.__ In the Inspector for the ProjectileLine LineRenderer, expand the disclosure triangle for _Materials_. Click the _circle to the right of Element 0_ in the Materials list and choose _Default-Line_ from the Assets list
+>
+> __d.__ In the section with a grid and a red line, besure to set the overall width of the line to 0.25 (in the box in the top left)
+>
+> __e.__ Set all other Line Renderer component settings to:
+> * Using World Space -- ☑️
+> * Element 0 -- Default-Line
+> * Cast Shadows -- off
+> * Receive Shadows -- ⬜
+
+__2.__ Create a C# script (_Assets > Create > C# Script_) in the __Scripts folder
+> __a.__ Name the script _ProjectileLine_
+>
+> __b.__ Attach the _ProjectileLine_ script to the ProjectileLine GameObject in the Hierarchy
+>
+> __c.__ Open the _ProjectileLine_ script in VS and enter the code
+
+```cs
+// ProjectileLline.cs
+
+using System;
+using system.Collections.Generic;
+using UnityEngine
+
+[RequireComponent (typeof(LineRenderer))]
+public class ProjectileLine : Monobehaviour {
+  private LineRenderer _line;
+  private bool _drawing = true;
+  private Projectile _projectile;
+
+
+  void Start() {
+    _line = GetComponent<LineRenderer>();
+    _line.positioncount = 1;
+    _line.SetPosition(0, transform.position);
+
+    _projectile = GetComponentInParent<{rpjectile>();
+  }
+}
+```
