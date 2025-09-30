@@ -1143,7 +1143,7 @@ __7.__ To make the second floor of the castle, use mouse to select any three adj
 >
 > __b.__ Make sure that the Move tool is selected
 >
-> __c.__ Hold the Ctrl key and Move thme to be restingjust above the others. By holding Ctrl constrain the movement to the 0.25m grid that was set before, which should allow the exect position of the second floor. If need to tweak thier positions, the finl positions for the nre Walls and Slabs should be as follows
+> __c.__ Hold the Ctrl key and Move thme to be restingjust above the others. By holding Ctrl constrain the movement to the 0.25m grid that was set before, which should allow the exect position of the second floor. If need to tweak thier positions, the final positions for the nre Walls and Slabs should be as follows
 > * __Wall (4)__ P:[-4, 6.5, 0]
 > * __Wall (5)__ P:[0, 6.5 0]
 > * __Wall (6)__ P:[4, 6.5, 0]
@@ -1164,4 +1164,6 @@ __11.__ Select the _Slab_ prefab in the Project pane and set its _Transform Scal
 
 
 ### Making a Goal Using Nested Prefab
-__1.__ Add a Goal cube to the Castle 
+__1.__ Add a Goal cube to the Castle instance in the Hierarchy by _right-clicking_ on  the word _Castle_ in the Hierarchy and choosing _3D Object > Cube_ from the pop-up menu. This creates a new Cube as a child of Castle
+
+__2.__ Rename the Cube to _Goal_
