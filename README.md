@@ -1855,3 +1855,123 @@ __2.__ Add the __DESTROY_PROJECTILES()__ method to the Projectiles class. OPen t
       void Update() {...}
     */
   }
+
+__3.__ Add code to Slingshot C# script
+
+```cs
+  // Slingshot.cs
+  
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+  
+  public class Slingshot : MonoBehaviour {
+
+    // fields set in tthe Unity Ispector pane
+    [Header("Inscribed")]
+    // meant to set within the Inspector
+    public GameObject projectilePrefab;
+    public float velocityMult = 10f;
+
+    // fields set dynamically
+    [Header("Dynamic")]
+    // fields that will be set dynamically when the game is running
+    public GameObject launchPoint;
+    public Vector3 launchPos;
+    public GameObject projectile;
+    public bool aimingMode;
+  
+  
+    void Awake() {
+      Transform launchPointTrans = transform.Find("LaunchPoint");
+      launchPoint = launchPointTrans.gameIbject;
+      launchPoint.SetActive(false);
+      launchPos = launchPointTrans.position;
+    }
+
+
+    void OnMouseEnter() {
+      // print("Slingshot:OnMouseEnter()");
+      launchPoint.SetActive(true);
+    }
+
+
+    void OnMouseExit() {
+      // print("Slingshot:OnMouseExit()");
+      launchPoint.SetActive(false);
+    }
+
+
+    void OnMouseDown () {
+      // the player has pressed the mouse button while over the Slingshot
+      aimingMode = true;
+
+      // instantiating a Projectile
+      projectile = Instantiate(projectilePrefab) as GameOBject;
+
+      // Start it at the launchPoint
+      projectile.transform.position = launchPos;
+
+      // Set it to isKinematic for now
+      projectile.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+
+    void Update() {
+      // If Slingshot is not in aimingMode, don't run this code
+      if (!aimingMode) {return;}
+
+      // Get the current mouse position in 2D screen coordinates
+      Vector3 mousePos2D = Input.mousePosition;
+      mousePos2D.z = -Camera.main.transform.position.z;
+      Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+
+      // Find the delta from the launchPos to the mousePos3D
+      Vector3 mouseDelta = mousePos3D - launchPos;
+
+      // Limit mouseDelta to the radius of the Slingshot SphereCollider
+      float maxMagnitude = this.GetComponent<SphereCollider>().radius;
+      if (mouseDelta.magnitude > maxMagnitude) {
+        mouseDelta.Normalize();
+        mouseDelta *= maxMagnetude;
+      }
+
+      // Move the projectile to this new position
+      Vector3 projPos = launchPos + mouseDelta;
+      projectile.transform.position = projPos;
+
+      if (input.GetMouseButtonUp(0)) {
+        // the mouse has been released
+        aimingMode = false;
+        RigidBody projRB = projectile.GetComponent<Rigidbody>().radius;
+        projRB.isKinemaric = false;
+        projRB.collisionDectionMode = CollisionDetectionMode.Continuous;
+        projRB.velocity = -mouseDelta * velocityMult;
+        FollowCam.POI = projectile;    // Set the _MainCamera POI
+        projectile = null;
+
+        MissionDemolition.SHOT_FIRED();
+      }
+    }
+  
+    /*
+      void Start() {}
+    */
+    
+  }
+```
+
+__4.__ Save _all_ scripts and switch back to Unity
+
+__5.__ Select __MainCamera_ in the Hierarchy. In the _MissionDemolition (Script)_ component Inspector
+> __a.__ To set __uitLevel__, click the target in the INspector to the right of __uitLevel__ and select _UIText_Level_ from the Scene tab in the pop-up dialog box
+>
+> __b.__ Click the target next to __uitShots__ in the Inspector and choose _UIText_Shots_ from the Scene tab
+>
+> __c.__ St __castlePos__ to [50, -9.5, 0], which places the castles a nice distance from the slingshot
+>
+> __d.__ Click the disclosure triangle next to __castles__ and set _Size_ to the number of castles made previously
+>
+> __e.__ Drag each of the numbered CAstle prefabs made into an element of the __castles__ array to set the levels for the game. Try to order them from easiest to most difficult
+
+__6.__ Save the scene
