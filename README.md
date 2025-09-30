@@ -1322,31 +1322,157 @@ __2.__ Create a C# script (_Assets > Create > C# Script_) in the __Scripts folde
 ```cs
 // ProjectileLline.cs
 
-using System;
-using system.Collections.Generic;
-using UnityEngine
-
-[RequireComponent (typeof(LineRenderer))]
-public class ProjectileLine : Monobehaviour {
-  private LineRenderer _line;
-  private bool _drawing = true;
-  private Projectile _projectile;
-
-
-  void Start() {
-    _line = GetComponent<LineRenderer>();
-    _line.positioncount = 1;
-    _line.SetPosition(0, transform.position);
-
-    _projectile = GetComponentInParent<{rpjectile>();
-  }
-
-
-  void FixedUpdate() {
-    if (_drawing) {
-      _line.positionoCount++;
-      
+  using System;
+  using system.Collections.Generic;
+  using UnityEngine
+  
+  [RequireComponent (typeof(LineRenderer))]
+  public class ProjectileLine : Monobehaviour {
+    private LineRenderer _line;
+    private bool _drawing = true;
+    private Projectile _projectile;
+  
+  
+    void Start() {
+      _line = GetComponent<LineRenderer>();
+      _line.positioncount = 1;
+      _line.SetPosition(0, transform.position);
+  
+      _projectile = GetComponentInParent<{rpjectile>();
     }
+  
+  
+    void FixedUpdate() {
+      if (_drawing) {
+        _line.positionoCount++;
+        _line.SetPosition(_line.positionCount - 1, transform.position);
+    
+        // If the Prjectile Rigidbody is sleeping, stop drawing
+        if (_projectile != null) {
+          if (!_projectile.awake) {
+            _drawing = false;
+            _projectile = null;
+          }
+        }
+      }
+    }
+  
+    /*
+      void update() {...}
+    */
   }
-}
+```
+
+__3.__ Save the ProjectileLine script and return to Unity
+
+__4.__ Make the ProjectileLine GameOBject a prefab
+> __a.__ Drag the _ProjectileLine_ GameOBject from the Hierarchy into the __Prefabs_ folder in the Project pane
+>
+> __b.__ Delete the remaining ProjectileLine instance from the Hierarchy
+
+__5.__ Modify the Slingshot script to add a ProjectileLine to each Projectile right as it's launched
+
+```cs
+// Slingshot.cs
+  
+  using System.Collections;
+  using System.Collections.Generic;
+  using UnityEngine;
+  
+  public class Slingshot : MonoBehaviour {
+
+    // fields set in tthe Unity Ispector pane
+    [Header("Inscribed")]
+    // meant to set within the Inspector
+    public GameObject projectilePrefab;
+    public float velocityMult = 10f;
+    public GameObject projLinePrefab;
+
+    // fields set dynamically
+    [Header("Dynamic")]
+    // fields that will be set dynamically when the game is running
+    public GameObject launchPoint;
+    public Vector3 launchPos;
+    public GameObject projectile;
+    public bool aimingMode;
+  
+  
+    void Awake() {
+      Transform launchPointTrans = transform.Find("LaunchPoint");
+      launchPoint = launchPointTrans.gameIbject;
+      launchPoint.SetActive(false);
+      launchPos = launchPointTrans.position;
+    }
+
+
+    void OnMouseEnter() {
+      // print("Slingshot:OnMouseEnter()");
+      launchPoint.SetActive(true);
+    }
+
+
+    void OnMouseExit() {
+      // print("Slingshot:OnMouseExit()");
+      launchPoint.SetActive(false);
+    }
+
+
+    void OnMouseDown () {
+      // the player has pressed the mouse button while over the Slingshot
+      aimingMode = true;
+
+      // instantiating a Projectile
+      projectile = Instantiate(projectilePrefab) as GameOBject;
+
+      // Start it at the launchPoint
+      projectile.transform.position = launchPos;
+
+      // Set it to isKinematic for now
+      projectile.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+
+    void Update() {
+      // If Slingshot is not in aimingMode, don't run this code
+      if (!aimingMode) {return;}
+
+      // Get the current mouse position in 2D screen coordinates
+      Vector3 mousePos2D = Input.mousePosition;
+      mousePos2D.z = -Camera.main.transform.position.z;
+      Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+
+      // Find the delta from the launchPos to the mousePos3D
+      Vector3 mouseDelta = mousePos3D - launchPos;
+
+      // Limit mouseDelta to the radius of the Slingshot SphereCollider
+      float maxMagnitude = this.GetComponent<SphereCollider>().radius;
+      if (mouseDelta.magnitude > maxMagnitude) {
+        mouseDelta.Normalize();
+        mouseDelta *= maxMagnetude;
+      }
+
+      // Move the projectile to this new position
+      Vector3 projPos = launchPos + mouseDelta;
+      projectile.transform.position = projPos;
+
+      if (input.GetMouseButtonUp(0)) {
+        // the mouse has been released
+        aimingMode = false;
+        RigidBody projRB = projectile.GetComponent<Rigidbody>().radius;
+        projRB.isKinemaric = false;
+        projRB.collisionDectionMode = CollisionDetectionMode.Continuous;
+        projRB.velocity = -mouseDelta * velocityMult;
+        FollowCam.POI = projectile;    // Set the _MainCamera POI
+
+        // Add a ProjectileLine to the Projectile
+        Instantiate<GameObject>(projLinePrefab, projectile.transform);
+        projectile = null;
+      }
+    }
+  
+    /*
+      void Start() {}
+    */
+    
+  }
 ```
