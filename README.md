@@ -52,7 +52,7 @@ __2.__ Create a cube (choose _GameObject > 3D Object > Cube_ from the menu bar)
 > * S:[100, 1, 4]
 
 __3.__ Create a new material (_Assets > Create > Material_) and name it _Mat_Ground_
-> __a.__ Give _Mat_Ground_ a brown _Albedo color
+> __a.__ Give _Mat_Ground_ a brown _Albedo_ color
 >
 > __b.__ Also set the _Smoothness_ of the material to _0_ (the ground id not very shiny)
 >
