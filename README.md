@@ -1340,5 +1340,13 @@ public class ProjectileLine : Monobehaviour {
 
     _projectile = GetComponentInParent<{rpjectile>();
   }
+
+
+  void FixedUpdate() {
+    if (_drawing) {
+      _line.positionoCount++;
+      
+    }
+  }
 }
 ```
