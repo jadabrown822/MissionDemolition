@@ -1167,3 +1167,23 @@ __11.__ Select the _Slab_ prefab in the Project pane and set its _Transform Scal
 __1.__ Add a Goal cube to the Castle instance in the Hierarchy by _right-clicking_ on  the word _Castle_ in the Hierarchy and choosing _3D Object > Cube_ from the pop-up menu. This creates a new Cube as a child of Castle
 
 __2.__ Rename the Cube to _Goal_
+
+__3.__ Click _Castle_ in the Hierarchy and then click the _Overrides_ button near the top of the Castle Inspector pane. goal is listed as an instnace override of the Castle prefab
+
+__4.__ In this same Overrides pop-up, click the _Apply All_ button. This applies all ovrerides on this instance back to the prefab itself. Now, the name of Goal is blue in the Hierarchy and the plus has dissappeared because Goal is now part of the Castle prefab
+
+__5.__ Try dragging Goal to the _Prefabs folder of the Project paneto make it its own prefab, and there will be an error "Cannot restructure Prefab instance." To make structural changes to a prefab (like chinging a child of it from a regular GameObject to a prefab instance), need to use the Prefab Mode of the Scene pane
+
+__6.__ Click _Open Prefab_ to open the Prefab Mode for Castle. This opens the Castle prefab qhile showing it within the _context_ of the scene. should see the other GameObjects in the scene ghosted around the Castle. If not, check the top of the scene pane to make sure that the _Context:_ mode is set to _Gray_
+* _Prefab > Open Asset in Context_: This shows the prefab as it is positioned in the scene
+* _Prefab > Open Asset in Isolation_: This shows the same prefab wihtout any context, and it is the same view if double-clicked the prefab in the Ptroject pane
+
+__7.__ Make sure to be in one of the Prefab Mode views and then drag the _Goal_ GameObject from the Castle Hierarchy pane into the _Prefabs folder of the Project pane to make it its own prefab. Unity will allow it this time, and the icon for Goal in the Castle Hierarchy will turn blue to show that it's now a nested prefab (like the Walls and Slabs)
+
+__8.__ Select _Goal_ in the Castle Hierarchy and look at the inspector and then select _Goal_ in the _Prefabs folder of the Project pane and see how the Inspector appears differently. Use this differnce to know whether editing in the prefab itself or one of its instances
+
+__9.__ Select _Goal_ in the _Prefabs folder and set its Transform _scale_ to S:[3, 4, 4]. Setting the scale fo the prefav will change its instances (including nested ones)
+
+__10.__ Select _Goal_ inthe _Prefabs folder and set it Transform _position_ to P:[0, 2, 0]. Notice that the Goal child of Castle does _not_ move to the new position. Position is such a common thing to change that it does not count as an override and is not carried over from a prefab to its instance. This is also true of rotation. Changing the roation of the prefab willnot change any of its instances
+
+__11.__ Select the _Goal_ child of Castle in the Castle Hierarchy and set its position to P:[0, 2, 0]
