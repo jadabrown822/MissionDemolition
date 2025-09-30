@@ -1187,3 +1187,25 @@ __9.__ Select _Goal_ in the _Prefabs folder and set its Transform _scale_ to S:[
 __10.__ Select _Goal_ inthe _Prefabs folder and set it Transform _position_ to P:[0, 2, 0]. Notice that the Goal child of Castle does _not_ move to the new position. Position is such a common thing to change that it does not count as an override and is not carried over from a prefab to its instance. This is also true of rotation. Changing the roation of the prefab willnot change any of its instances
 
 __11.__ Select the _Goal_ child of Castle in the Castle Hierarchy and set its position to P:[0, 2, 0]
+
+
+### Configuring the Material and Collider of Goal
+__1.__ Create new material in the _Materials_ folder named _Mat_Goal_
+> __a.__ Drag _Mat_Goal_ onto the Goal prefab in the _Prefabs folder of the Project to apply it. May need to then select Goal in the Project pane for the material change to be reflected in the prefab Mode view
+>
+> __b.__ Select _Mat_Goal_ in the Project pane, and set its _Albedo_ color to a _bright green_ with an opacity of _50%_ (an RGBA in Unity color picker of [0, 255, 0, 128])
+>
+> __c.__ Set the _rendering Mode_ of Mat_Goal to _Transparent_, and notice that this allows the alpha value set to make the Goal translucent (this shows up more clearly in the Game pane)
+
+__2.__ Right-click _Goal_ inthe Castle Hierarchy and choose _Prefab > Open Asset in Context_. See Goal within the context of Castle within the context of the Scene. Note the nesting "bread crumb trail" at the top of the Scene pane (showing "Scenes > Castle > Goal")
+> __a.__ Select _Goal_ in teh Goal Herarchy
+>
+> __b.__ In the Goal _Box Collider_ Inspector, select _Is Trigger_ to make the Goal collider a trigger
+
+__3.__ Return to the Scene Mode (by clicking the word _Scenes_ in the top-left of the Scene pane) and save the scene
+
+
+### Testing the Castle
+__1.__ Select the _Castle_ instance in the Hierarchy and set its position to P:[50, -9.5. 0]
+
+__2.__ Click _Play_ and try to knock the Castle down with a Projectile
