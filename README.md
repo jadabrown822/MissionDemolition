@@ -47,7 +47,7 @@ __2.__ Create a cube (choose _GameObject > 3D Object > Cube_ from the menu bar)
 > __a.__ Rename the cube to _Ground_
 > 
 > __b.__ To make a rectangualr solid that is very wide in the x direction, set its transform to the following
-> * P:[0, 10, 0]
+> * P:[0, -10, 0]
 > * R:[0, 0, 0]
 > * S:[100, 1, 4]
 
