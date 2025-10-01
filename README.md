@@ -143,7 +143,7 @@ __7.__ Select _LeftArm_ in the Hierarchy
 __8.__ Select the _Slingshot_ in the Hierarchy
 > __a.__ Set the transform of Slingshot to the following:
 > * P:[-10, -10, 0]
-> * R:[0, 15, 0]
+> * R:[0, -15, 0]
 > * S:[1, 1, 1]
 >
 > __b.__ Add a Sphere Collider component to Slingshot (_Component > Physics > Sphere Collider_)
