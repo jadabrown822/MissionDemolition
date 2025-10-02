@@ -6,6 +6,10 @@ public class FollowCam : MonoBehaviour
 {
     static public GameObject POI;       // the static point of interest
 
+    [Header("Inscribed")]
+    public float easing = 0.05f;
+    public Vector2 minXY = Vector2.zero;        // Vector2.zero is [0,0]
+
     [Header("Dynamic")]
     public float camZ;          // the desired z pos of the camera
 
@@ -22,6 +26,13 @@ public class FollowCam : MonoBehaviour
 
         // Get the position of poi
         Vector3 destination = POI.transform.position;
+
+        // Limit the minimum values of destination.x & destination.y
+        destination.x = Mathf.Max(minXY.x, destination.x);
+        destination.y = Mathf.Max(minXY.y, destination.y);
+
+        // Interpolate from the current Camera position towards the destination
+        destination = Vector3.Lerp(transform.position, destination, easing);
 
         // Force destination.z to be camZ to keep the camera far enough away
         destination.z = camZ;
