@@ -5,6 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - projectilePrefab: {instanceID: 0}
+  - projLinePrefab: {instanceID: 0}
   - launchPoint: {instanceID: 0}
   - projectile: {instanceID: 0}
   executionOrder: 0
