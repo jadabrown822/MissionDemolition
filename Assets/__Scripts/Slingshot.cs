@@ -7,6 +7,7 @@ public class Slingshot : MonoBehaviour
     [Header("Inscribed")]               // Fields set in the Unity Inspector pane
     public GameObject projectilePrefab;
     public float velocityMult = 10f;
+    public GameObject projLinePrefab;
 
     [Header("Dynamic")]                 // Fields that will be set dynamically when the game is running
     public GameObject launchPoint;
@@ -89,6 +90,8 @@ public class Slingshot : MonoBehaviour
             projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
             projRB.velocity = -mouseDelta * velocityMult;
             FollowCam.POI = projectile;         // Set the _MainCamera POI
+            // Add a ProjectileLine to the Projectile
+            Instantiate<GameObject>(projLinePrefab, projectile.transform);
             projectile = null;
         }
     }
