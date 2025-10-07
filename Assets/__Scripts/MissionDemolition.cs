@@ -36,13 +36,13 @@ public class MissionDemolition : MonoBehaviour
 
         level = 0;
         shotsTaken = 0;
-        levelMax = castles.length;
+        levelMax = castles.Length;
 
         StartLevel();
     }
 
 
-    void Startlevel()
+    void StartLevel()
     {
         // Get rid of the old castle if one exists
         if (castle != null)
@@ -51,7 +51,7 @@ public class MissionDemolition : MonoBehaviour
         }
 
         // Destroy old projectile if they exist (the method is not yet written)
-        projectile.DESTROY_PROJECTILES();           // This will be underline in red
+        Projectile.DESTROY_PROJECTILES();           // This will be underline in red
 
         // Instantiate the new castle
         castle = Instantiate<GameObject>(castles[level]);
@@ -99,7 +99,7 @@ public class MissionDemolition : MonoBehaviour
             shotsTaken = 0;
         }
 
-        Startlevel();
+        StartLevel();
     }
 
 
