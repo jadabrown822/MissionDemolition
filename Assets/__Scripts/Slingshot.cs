@@ -8,6 +8,10 @@ public class Slingshot : MonoBehaviour
     public GameObject projectilePrefab;
     public float velocityMult = 10f;
     public GameObject projLinePrefab;
+    public LineRenderer lineRenderer;
+
+    public Transform leftAnchor;
+    public Transform rightAnchor;
 
     [Header("Dynamic")]                 // Fields that will be set dynamically when the game is running
     public GameObject launchPoint;
@@ -50,6 +54,12 @@ public class Slingshot : MonoBehaviour
 
         // Set it to isKinematics for now
         projectile.GetComponent<Rigidbody>().isKinematic = true;
+
+        lineRenderer.enabled = true;
+        lineRenderer.positionCount = 3;
+
+        lineRenderer.SetPosition(0, leftAnchor.position);
+        lineRenderer.SetPosition(2, rightAnchor.position);
     }
 
 
@@ -81,6 +91,8 @@ public class Slingshot : MonoBehaviour
         Vector3 projPos = launchPos + mouseDelta;
         projectile.transform.position = projPos;
 
+        lineRenderer.SetPosition(1, projPos);
+
         if (Input.GetMouseButtonUp(0))
         {
             // the mouse has been released
@@ -89,6 +101,8 @@ public class Slingshot : MonoBehaviour
             projRB.isKinematic = false;
             projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
             projRB.velocity = -mouseDelta * velocityMult;
+
+            lineRenderer.enabled = false;
 
             // Switch to slingshot view immediately before setting POI
             FollowCam.SWITCH_VIEW(FollowCam.eView.slingshot);
