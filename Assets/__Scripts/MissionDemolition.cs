@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
 public enum GameMode
 {
     idle,
@@ -63,6 +64,9 @@ public class MissionDemolition : MonoBehaviour
         UpdateGUI();
 
         mode = GameMode.playing;
+
+        // Zoom out to show both
+        FollowCam.SWITCH_VIEW(FollowCam.eView.both);
     }
 
 
@@ -83,6 +87,9 @@ public class MissionDemolition : MonoBehaviour
         {
             // change mode to stop checking for level end
             mode = GameMode.levelEnd;
+
+            // Zoom out to show both
+            FollowCam.SWITCH_VIEW(FollowCam.eView.both);
 
             // Start the next level in 2 seconds
             Invoke("NextLevel", 2f);
