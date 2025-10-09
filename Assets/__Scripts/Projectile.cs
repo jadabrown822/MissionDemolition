@@ -88,12 +88,14 @@ public class Projectile : MonoBehaviour
         }
 
         // If the Projectile hasn't moved more than the sleepThreshold
-        if (maxDelta <- Physics.sleepThreshold)
+        if (maxDelta <= Physics.sleepThreshold)
         {
             // Set awake to false and put rigidbody to sleep
             awake = false;
             rigid.Sleep();
+
         }
+
     }
 
 
