@@ -6,6 +6,9 @@ MonoImporter:
   defaultReferences:
   - projectilePrefab: {instanceID: 0}
   - projLinePrefab: {instanceID: 0}
+  - lineRenderer: {instanceID: 0}
+  - leftAnchor: {instanceID: 0}
+  - rightAnchor: {instanceID: 0}
   - launchPoint: {instanceID: 0}
   - projectile: {instanceID: 0}
   executionOrder: 0

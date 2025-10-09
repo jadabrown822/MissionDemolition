@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 
@@ -25,6 +26,7 @@ public class MissionDemolition : MonoBehaviour
     public int level;                                   // the current level
     public int levelMax;                                // the number of levels
     public int shotsTaken;
+    static public int LAST_SHOTS_TAKEN = 0;
     public GameObject castle;                           // the current castle
     public GameMode mode = GameMode.idle;
     public string showing = "Show Slingshot";           // FollowCam mode
@@ -102,8 +104,13 @@ public class MissionDemolition : MonoBehaviour
 
         if (level == levelMax)
         {
+            MissionDemolition.LAST_SHOTS_TAKEN = shotsTaken;
+
             level = 0;
             shotsTaken = 0;
+
+            SceneManager.LoadScene("_Game_Over");
+            return;
         }
 
         StartLevel();

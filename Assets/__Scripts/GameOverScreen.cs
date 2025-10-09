@@ -9,7 +9,7 @@ public class GameOverScreen : MonoBehaviour
 {
     public string gameSceneName = "_Scene_0";
     public string menuSceneName = "_Main_Menu";
-    public TextMeshProUGUI MissionDemolition;
+    public TextMeshProUGUI shotsTakenText;
     public Button startGameButton;
     public Button mainMenuButton;
 
@@ -27,6 +27,9 @@ public class GameOverScreen : MonoBehaviour
 
         SetupButtonColors(startGameButton);
         SetupButtonColors(mainMenuButton);
+
+        int shots = MissionDemolition.LAST_SHOTS_TAKEN;
+        shotsTakenText.text = "Shots Taken: " + shots;
     }
 
 
