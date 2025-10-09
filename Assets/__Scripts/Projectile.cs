@@ -7,6 +7,12 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    private AudioSource audioSource;
+
+    [Header("Audio")]
+    public AudioClip castleImpactSound;
+    public AudioClip groundImpactSound;
+
     const int LOOKBACK_COUNT = 10;
     static List<Projectile> PROJECTILES = new List<Projectile>();
 
@@ -33,6 +39,29 @@ public class Projectile : MonoBehaviour
         deltas.Add(1000);
 
         PROJECTILES.Add(this);
+
+        audioSource = GetComponent<AudioSource>();
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        string tag = collision.gameObject.tag;
+
+        switch(tag)
+        {
+            case "Wall":
+                audioSource.PlayOneShot(castleImpactSound);
+                break;
+
+            case "Slab":
+                audioSource.PlayOneShot(castleImpactSound);
+                break;
+
+            case "Ground":
+                audioSource.PlayOneShot(groundImpactSound);
+                break;
+        }
     }
 
 
