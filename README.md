@@ -1,16 +1,24 @@
-Mission Demolition
-=====================
+The enhancements add to this version of Mission Demolition compared to the version in the book are the styles of the castles.
 
-__1.__ Do the mIssion Demolition tutorial from Bond Chapter 30. Enhance the finished Mission Demolition project in the following ways:
+### Castle 1
+![castle 1](images/castle_0.png)
 
-> __a.__ use the Correct Unity vertion and upload to GitHub iwht the correct Unity gitignore.
->
-> __b.__ Add a "Game Over" screen with a "Play Again" button.
->
-> __c.__ Make 4 levels with 4 Castles different form the ones shoen in the book. Order the castles from easy to difficult, so that the game increases in difficulty with each level
->
-> __d.__ Use a Line Reader to draw a rubber band of a slingshot
->
-> __e.__ Add a sound. Either the rubber band snapping as the projectiile is shot, or the porjectile whirring as it flies though the air
->
-> __f.__ Make the game cooler in a meaningful eay. Be sure to leave a readme file that explains the enhancements
+### Castle 2
+![castle 2](images/castle_1.png)
+
+### Castle 3
+![castle 3](images/castle_2.png)
+
+### Castle 4
+![castle 4](images/castle_3.png)
+
+
+Another addition to the game was adding a line reader to act like the a rubberband for the slingshot
+![slingshot](images/slingshot.png)
+
+
+The last enhancements are sound additions, Main Menu screen, and a Game Over screen
+![sound files(metal pipe sound for hitting castle, roblox sound for hitting ground)](images/sound.png)
+
+![main menu screen](images/main_menu.png)
+![game over screen](images/game_over.png)
