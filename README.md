@@ -18,6 +18,7 @@ Another addition to the game was adding a line reader to act like the a rubberba
 
 
 The last enhancements are sound additions, Main Menu screen, and a Game Over screen
+
 ![sound files(metal pipe sound for hitting castle, roblox sound for hitting ground)](images/sound.png)
 
 ![main menu screen](images/main_menu.png)
